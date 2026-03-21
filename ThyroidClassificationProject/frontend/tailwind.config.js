@@ -4,6 +4,7 @@ export default {
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
+    darkMode: 'class', // Enable class-based dark mode
     theme: {
         extend: {
             colors: {
@@ -32,6 +33,34 @@ export default {
                     border: '#e2e8f0',
                     text: '#0f172a',
                     muted: '#64748b'
+                },
+                // Dark mode colors - Full Dark & Violet Theme
+                dark: {
+                    background: '#0a0a0f',
+                    surface: '#1a1a2e',
+                    card: '#252537',
+                    border: '#374151',
+                    text: '#e4e4e7',
+                    'text-secondary': '#9ca3af',
+                    'text-muted': '#6b7280',
+                    // Violet accents
+                    violet: {
+                        50: '#8b5cf6',
+                        100: '#a78bfa',
+                        200: '#c084fc',
+                        300: '#a855f7',
+                        400: '#818cf8',
+                        500: '#6366f1',
+                        600: '#7c3aed',
+                        700: '#6d28d9',
+                        800: '#7c2d12',
+                        900: '#4c1d95',
+                        950: '#3730a3',
+                    },
+                    // Dark gradients
+                    'gradient-start': '#1a1a2e',
+                    'gradient-end': '#374151',
+                    'gradient-violet': '#6366f1'
                 }
             },
             fontFamily: {
@@ -46,6 +75,9 @@ export default {
                 'glow-cyan': '0 0 15px rgba(14, 165, 233, 0.2)',
                 'glow-emerald': '0 0 15px rgba(16, 185, 129, 0.2)',
                 'glow-violet': '0 0 15px rgba(139, 92, 246, 0.2)',
+                'dark-premium': '0 4px 6px -1px rgba(0, 0, 0 / 0.3), 0 2px 4px -2px rgba(0, 0, 0 / 0.3)',
+                'dark-glow-violet': '0 0 20px rgba(139, 92, 246, 0.3)',
+                'dark-glow-brand': '0 0 20px rgba(99, 102, 241, 0.25)',
             },
             borderRadius: {
                 '2xl': '1.25rem',

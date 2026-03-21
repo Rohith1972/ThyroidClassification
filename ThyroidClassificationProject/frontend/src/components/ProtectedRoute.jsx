@@ -25,7 +25,7 @@ const ProtectedRoute = ({ allowedRoles, fallback = "/login", children }) => {
 
     // Role check - assuming basic structure, can be expanded
     if (allowedRoles && !allowedRoles.some(role => currentUser.roles?.includes(role))) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/app" replace />;
     }
 
     return children ? children : <Outlet />;

@@ -32,16 +32,16 @@ const StatCard = ({ title, value, icon: Icon, color, trend, delay = 0 }) => (
                 <Icon size={22} />
             </div>
             {trend && (
-                <div className={`flex items-center gap-1 px-2.5 py-1 ${trend.startsWith('+') ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'} rounded-full border text-[10px] font-bold`}>
+                <div className={`flex items-center gap-1 px-2.5 py-1 ${trend.startsWith('+') ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-800' : 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-800'} rounded-full border text-[10px] font-bold`}>
                     <TrendingUp size={12} className={trend.startsWith('-') ? 'rotate-180' : ''} />
                     {trend}
                 </div>
             )}
         </div>
         <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{title}</p>
+            <p className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest mb-1.5">{title}</p>
             <div className="flex items-baseline gap-2">
-                <h3 className="text-3xl font-black text-slate-900 tracking-tight">{value}</h3>
+                <h3 className="text-3xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight">{value}</h3>
                 <div className="badge-premium !py-0 !px-2 !text-[8px]">Analyzed</div>
             </div>
         </div>
@@ -87,8 +87,8 @@ const Dashboard = () => {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[400px] gap-6">
-                <div className="w-12 h-12 border-4 border-slate-100 border-t-brand-500 rounded-full animate-spin"></div>
-                <p className="font-bold text-slate-400 uppercase tracking-widest text-[10px]">Loading Intelligence Node...</p>
+                <div className="w-12 h-12 border-4 border-slate-100 dark:border-violet-900 border-t-brand-500 dark:border-violet-400 rounded-full animate-spin"></div>
+                <p className="font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest text-[10px]">Loading Intelligence Node...</p>
             </div>
         );
     }
@@ -99,21 +99,21 @@ const Dashboard = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
                 <div>
                     <div className="flex items-center gap-2 mb-3">
-                        <span className="badge-premium text-brand-600 border-brand-100 bg-brand-50">Local Deployment</span>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-2">
-                            <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-pulse"></span>
+                        <span className="badge-premium text-brand-600 dark:text-violet-400 border-brand-100 dark:border-violet-800 bg-brand-50 dark:bg-violet-900/20">Local Deployment</span>
+                        <span className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest flex items-center gap-1.5 ml-2">
+                            <span className="w-1.5 h-1.5 bg-brand-500 dark:bg-violet-400 rounded-full animate-pulse"></span>
                             Live Analytics
                         </span>
                     </div>
-                    <h1 className="text-4xl font-black text-slate-900 tracking-tighter mb-2 italic">Diagnostic <span className="text-brand-500">Board</span></h1>
-                    <p className="text-slate-500 font-bold flex items-center gap-2 text-xs">
-                        <Clock size={14} className="text-brand-500" />
+                    <h1 className="text-4xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-2 italic">Diagnostic <span className="text-brand-500">Board</span></h1>
+                    <p className="text-slate-500 dark:text-violet-500 font-bold flex items-center gap-2 text-xs">
+                        <Clock size={14} className="text-brand-500 dark:text-violet-400" />
                         Last synchronization: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="flex items-center gap-2.5 px-6 py-3.5 bg-white border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition-all text-sm group shadow-sm">
-                        <Microscope size={18} className="text-brand-500" />
+                    <button className="flex items-center gap-2.5 px-6 py-3.5 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl font-bold text-slate-600 dark:text-dark-text hover:bg-slate-50 dark:hover:bg-dark-border transition-all text-sm group shadow-sm">
+                        <Microscope size={18} className="text-brand-500 dark:text-violet-400" />
                         Diagnostic View
                     </button>
                     <button className="btn-primary !h-auto !py-3.5 !px-8">
@@ -125,10 +125,10 @@ const Dashboard = () => {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard title="Total Lab Registry" value={stats.total} icon={Users} color="bg-blue-500" trend="+12%" delay={0.1} />
+                <StatCard title="Total Lab Registry" value={stats.total} icon={Users} color="bg-brand-500" trend="+12%" delay={0.1} />
                 <StatCard title="Positive Findings" value={stats.positive} icon={Activity} color="bg-rose-500" trend="+3%" delay={0.2} />
                 <StatCard title="Stable Findings" value={stats.negative} icon={ShieldCheck} color="bg-emerald-500" trend="+8%" delay={0.3} />
-                <StatCard title="Model Accuracy" value={stats.accuracy} icon={Zap} color="bg-amber-500" delay={0.4} />
+                <StatCard title="Model Accuracy" value={stats.accuracy} icon={Zap} color="bg-amber-500" trend="+2%" delay={0.4} />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -141,8 +141,8 @@ const Dashboard = () => {
                 >
                     <div className="flex justify-between items-start mb-10">
                         <div>
-                            <h3 className="text-lg font-black text-slate-900 tracking-tight uppercase">Outcome Timeline</h3>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Registry Throughput (6M History)</p>
+                            <h3 className="text-lg font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight uppercase">Outcome Timeline</h3>
+                            <p className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest mt-1">Registry Throughput (6M History)</p>
                         </div>
                     </div>
                     <div className="h-[300px] w-full">
@@ -150,39 +150,39 @@ const Dashboard = () => {
                             <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.1} />
-                                        <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.1} />
+                                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#475569" />
                                 <XAxis
                                     dataKey="name"
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
+                                    tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 700 }}
                                     dy={10}
                                 />
                                 <YAxis
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
+                                    tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 700 }}
                                 />
                                 <Tooltip
-                                    cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }}
+                                    cursor={{ stroke: '#e4e4e7', strokeWidth: 1 }}
                                     contentStyle={{
-                                        backgroundColor: '#ffffff',
-                                        border: '1px solid #f1f5f9',
+                                        backgroundColor: '#1a1a2e',
+                                        border: '1px solid #475569',
                                         borderRadius: '12px',
                                         boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
                                         padding: '12px'
                                     }}
-                                    labelStyle={{ fontWeight: 'bold', color: '#1e293b', marginBottom: '4px' }}
+                                    labelStyle={{ fontWeight: 'bold', color: '#e4e4e7', marginBottom: '4px' }}
                                     itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
                                 />
                                 <Area
                                     type="monotone"
                                     dataKey="count"
-                                    stroke="#0ea5e9"
+                                    stroke="#6366f1"
                                     strokeWidth={3}
                                     fillOpacity={1}
                                     fill="url(#colorCount)"
@@ -211,15 +211,15 @@ const Dashboard = () => {
                                             {item.name === 'Positive' ? <Activity size={18} /> : <ShieldCheck size={18} />}
                                         </div>
                                         <div>
-                                            <span className="text-[11px] font-black text-slate-900 uppercase block">{item.name}</span>
-                                            <span className="text-[10px] font-bold text-slate-400 uppercase">{item.value} Records</span>
+                                            <span className="text-[11px] font-black dark:text-white text-slate-900 dark:text-dark-text uppercase block">{item.name}</span>
+                                            <span className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase">{item.value} Records</span>
                                         </div>
                                     </div>
-                                    <span className="text-xl font-black text-slate-900">
+                                    <span className="text-xl font-black dark:text-white text-slate-900 dark:text-dark-text">
                                         {Math.round((item.value / stats.total) * 100) || 0}%
                                     </span>
                                 </div>
-                                <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                                <div className="h-2 w-full bg-slate-50 dark:bg-dark-card rounded-full overflow-hidden border border-slate-100 dark:border-dark-border">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${(item.value / stats.total) * 100}%` }}
@@ -232,18 +232,18 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <div className="mt-8 p-6 bg-slate-50 border border-slate-100 rounded-3xl group">
+                    <div className="mt-8 p-6 bg-slate-50 dark:bg-dark-card border border-slate-100 dark:border-dark-border rounded-3xl group">
                         <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-sm font-black text-slate-900 uppercase">System Status</h4>
-                            <div className="flex items-center gap-1.5 font-bold text-emerald-500 text-[10px]">
-                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                            <h4 className="text-sm font-black dark:text-white text-slate-900 dark:text-dark-text uppercase">System Status</h4>
+                            <div className="flex items-center gap-1.5 font-bold text-emerald-500 dark:text-emerald-400 text-[10px]">
+                                <span className="w-1.5 h-1.5 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></span>
                                 Optimal
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
                             {[1, 2, 3, 4, 5, 6, 7].map(i => (
-                                <div key={i} className="flex-1 h-8 bg-slate-200 rounded-full relative overflow-hidden">
-                                    <div className="absolute bottom-0 left-0 w-full bg-brand-500 rounded-full animate-grow" style={{ height: `${20 + i * 10}%`, animationDelay: `${i * 0.1}s` }}></div>
+                                <div key={i} className="flex-1 h-8 bg-slate-200 dark:bg-dark-border rounded-full relative overflow-hidden">
+                                    <div className="absolute bottom-0 left-0 w-full bg-brand-500 dark:bg-violet-400 rounded-full animate-grow" style={{ height: `${20 + i * 10}%`, animationDelay: `${i * 0.1}s` }}></div>
                                 </div>
                             ))}
                         </div>

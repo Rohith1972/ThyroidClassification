@@ -86,16 +86,16 @@ const schema = yup.object({
     })
 }).required();
 
-const FormSection = ({ title, subtitle, icon: Icon, children, color = "bg-slate-100" }) => (
+const FormSection = ({ title, subtitle, icon: Icon, children, color = "bg-slate-100 dark:bg-dark-card" }) => (
     <div className="relative pb-10">
         <div className="flex items-center gap-5 mb-8">
             <div className={`w-14 h-14 ${color} rounded-2xl flex items-center justify-center text-white shadow-sm transition-all duration-300 group-hover:scale-105`}>
                 <Icon size={24} />
             </div>
             <div>
-                <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase italic">{title}</h3>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1 flex items-center gap-2">
-                    <span className="w-4 h-px bg-slate-200"></span>
+                <h3 className="text-xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight uppercase italic">{title}</h3>
+                <p className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-[0.3em] mt-1 flex items-center gap-2">
+                    <span className="w-4 h-px bg-slate-200 dark:bg-dark-border"></span>
                     {subtitle}
                 </p>
             </div>
@@ -239,71 +239,82 @@ const AddPatient = () => {
     };
 
     return (
-        <div className="max-w-5xl mx-auto pb-20">
-            <header className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8 pb-4 border-b border-slate-200">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-5xl mx-auto pb-20"
+        >
+            <header className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8 pb-4 border-b border-slate-200 dark:border-dark-border">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-1 uppercase italic">Patient <span className="text-brand-500">Inbound</span></h2>
-                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Clinical Intake Node v4.2</p>
+                    <h2 className="text-3xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-1 uppercase italic">Patient <span className="text-brand-500">Inbound</span></h2>
+                    <p className="text-slate-400 dark:text-violet-500 text-[10px] font-bold uppercase tracking-[0.2em]">Clinical Intake Node v4.2</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Link to="/patients" className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl text-slate-500 hover:bg-slate-50 transition-all font-bold uppercase tracking-widest text-[10px]">
-                        <ChevronLeft size={16} />
-                        Back
+                    <Link to="/app/patients" className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl text-slate-500 dark:text-dark-text hover:bg-slate-50 dark:hover:bg-dark-border transition-all font-bold uppercase tracking-widest text-[10px]">
+                        <ChevronLeft size={20} />
+                        Back to Registry
                     </Link>
-                    <div className="px-5 py-3 bg-brand-50 rounded-xl border border-brand-100 flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-pulse"></div>
-                        <p className="text-[9px] font-black text-brand-600 uppercase tracking-widest">Active Uplink</p>
-                    </div>
+                    <button
+                        type="submit"
+                        form="patient-form"
+                        onClick={handleSubmit(onSubmit)}
+                        disabled={loading}
+                        className="flex items-center gap-2 px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-all font-bold uppercase tracking-widest text-[10px] disabled:opacity-50 disabled:cursor-not-allowed border border-brand-500"
+                    >
+                        {loading ? (
+                            <Loader2 className="animate-spin" size={20} />
+                        ) : (
+                            <>
+                                <Save size={20} />
+                                Process Patient
+                            </>
+                        )}
+                    </button>
                 </div>
             </header>
-
-            <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="card-premium !p-8 lg:!p-12"
-            >
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
-                    {/* Section 1: Identity */}
-                    <FormSection title="Biological Data" subtitle="Core Patient Info" icon={User} color="bg-brand-500">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
-                                <div className="relative group">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" size={18} />
-                                    <input {...register('name')} className="input-premium pl-12 h-14 text-sm" placeholder="Subject Alpha" />
-                                </div>
-                                {errors.name && <p className="text-[10px] text-rose-500 font-bold mt-1 ml-1">{errors.name.message}</p>}
+            <form id="patient-form" onSubmit={handleSubmit(onSubmit)} className="space-y-12">
+                {/* Section 1: Identity */}
+                <FormSection title="Biological Data" subtitle="Core Patient Info" icon={User} color="bg-brand-500">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Full Name</label>
+                            <div className="relative group">
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={18} />
+                                <input {...register('name')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all" placeholder="Subject Alpha" />
                             </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Subject Age</label>
-                                <div className="relative group">
-                                    <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" size={18} />
-                                    <input type="number" {...register('age')} className="input-premium pl-12 h-14 text-sm" placeholder="25" />
-                                </div>
-                                {errors.age && <p className="text-[10px] text-rose-500 font-bold mt-1 ml-1">{errors.age.message}</p>}
+                            {errors.name && <p className="text-[10px] text-rose-500 dark:text-rose-400 font-bold mt-1 ml-1">{errors.name.message}</p>}
+                        </div>
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Subject Age</label>
+                            <div className="relative group">
+                                <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={18} />
+                                <input type="number" {...register('age')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all" placeholder="25" />
                             </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Gender Node</label>
-                                <div className="relative group">
-                                    <Dna className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" size={18} />
-                                    <select {...register('gender')} className="input-premium pl-12 h-14 text-sm appearance-none cursor-pointer">
-                                        <option value="Male">XY MALE</option>
-                                        <option value="Female">XX FEMALE</option>
-                                    </select>
-                                </div>
+                            {errors.age && <p className="text-[10px] text-rose-500 dark:text-rose-400 font-bold mt-1 ml-1">{errors.age.message}</p>}
+                        </div>
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Gender Node</label>
+                            <div className="relative group">
+                                <Dna className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={18} />
+                                <select {...register('gender')} className="input-premium pl-12 h-14 text-sm appearance-none cursor-pointer bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all">
+                                    <option value="Male">XY MALE</option>
+                                    <option value="Female">XX FEMALE</option>
+                                </select>
                             </div>
                         </div>
-                    </FormSection>
+                    </div>
+                </FormSection>
 
-                    {/* AI Service Selection */}
-                    <FormSection title="AI Service Selection" subtitle="Choose Neural Processing Engine" icon={Cpu} color="bg-purple-500">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {aiServices.map((service) => (
-                                <label key={service.name} className={`relative cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 ${
-                                    watch('aiServiceType') === service.name 
-                                        ? 'bg-purple-50 border-purple-300 shadow-lg shadow-purple-500/10' 
-                                        : 'bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200'
-                                }`}>
+                {/* AI Service Selection */}
+                <FormSection title="AI Service Selection" subtitle="Choose Neural Processing Engine" icon={Cpu} color="bg-purple-500">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {aiServices.map((service) => (
+                            <label key={service.name} className={`relative cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 ${
+                                watch('aiServiceType') === service.name 
+                                    ? 'bg-purple-50 border-purple-300 shadow-lg shadow-purple-500/10' 
+                                    : 'bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200'
+                            }`}>
                                     <input
                                         type="radio"
                                         {...register('aiServiceType')}
@@ -348,8 +359,8 @@ const AddPatient = () => {
                                 <FormSection title="Ultrasound Features" subtitle="TI-RADS Image Parameters" icon={ImageIcon} color="bg-blue-500">
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Composition</label>
-                                            <select {...register('composition')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4">
+                                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Composition</label>
+                                            <select {...register('composition')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4 bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all">
                                                 <option value="solid">Solid</option>
                                                 <option value="cystic">Cystic</option>
                                                 <option value="spongiform">Spongiform</option>
@@ -554,7 +565,6 @@ const AddPatient = () => {
                     </div>
                 </form>
             </motion.div>
-        </div>
     );
 };
 

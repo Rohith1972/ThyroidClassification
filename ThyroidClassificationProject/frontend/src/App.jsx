@@ -13,13 +13,14 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/welcome" element={<Welcome />} />
+                <Route path="/" element={<Welcome />} />
+                <Route path="/welcome" element={<Navigate to="/" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
 
-                <Route path="/" element={
-                    <ProtectedRoute requireAuth={true} fallback="/welcome">
+                <Route path="/app" element={
+                    <ProtectedRoute requireAuth={true} fallback="/">
                         <MainLayout />
                     </ProtectedRoute>
                 }>

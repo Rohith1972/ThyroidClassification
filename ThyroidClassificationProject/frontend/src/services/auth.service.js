@@ -44,7 +44,16 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+    const rawUser = localStorage.getItem("user");
+    if (!rawUser) return null;
+
+    try {
+        return JSON.parse(rawUser);
+    } catch (error) {
+        console.warn("Invalid user session data in localStorage, clearing it.");
+        localStorage.removeItem("user");
+        return null;
+    }
 };
 
 const AuthService = {
