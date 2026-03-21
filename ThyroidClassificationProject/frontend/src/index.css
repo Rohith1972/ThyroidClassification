@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        background-color: #f8fafc;
+        background-color: #ffffff;
         @apply text-slate-800 font-sans antialiased;
         background-image:
             radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0, transparent 50%),
@@ -13,7 +13,7 @@
     }
 
     html.dark body {
-        @apply bg-dark-background text-dark-text;
+        @apply bg-black text-white;
         background-image:
             radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 50%),
             radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.1) 0, transparent 50%);
@@ -22,11 +22,11 @@
 
 @layer components {
     .glass {
-        @apply bg-white/80 dark:bg-dark-surface/70 backdrop-blur-xl border border-white dark:border-dark-border shadow-md;
+        @apply bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-white dark:border-gray-800 shadow-md;
     }
 
     .card-premium {
-        @apply bg-white dark:bg-dark-card rounded-3xl p-8 border border-slate-200/60 dark:border-dark-border shadow-sm dark:shadow-dark-premium transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5;
+        @apply bg-white dark:bg-dark-card rounded-3xl p-8 border border-slate-200/60 dark:border-gray-800 shadow-sm dark:shadow-dark-premium transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5;
     }
 
     .btn-primary {
@@ -34,11 +34,11 @@
     }
 
     .btn-secondary {
-        @apply px-8 py-4 bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-dark-text font-bold rounded-2xl border border-slate-200 dark:border-dark-border hover:bg-slate-200 dark:hover:bg-dark-border transition-all duration-300 flex items-center justify-center gap-3 active:scale-95;
+        @apply px-8 py-4 bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-white font-bold rounded-2xl border border-slate-200 dark:border-gray-800 hover:bg-slate-200 dark:hover:bg-gray-900 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95;
     }
 
     .input-premium {
-        @apply w-full px-6 py-4 bg-slate-50 dark:bg-dark-card border-2 border-slate-100 dark:border-dark-border rounded-2xl focus:outline-none focus:border-brand-500/50 dark:focus:border-brand-500 focus:bg-white dark:focus:bg-dark-surface focus:ring-4 focus:ring-brand-500/5 transition-all duration-300 font-semibold text-slate-800 dark:text-dark-text placeholder:text-slate-400 dark:placeholder:text-dark-text-muted;
+        @apply w-full px-6 py-4 bg-slate-50 dark:bg-dark-card border-2 border-slate-100 dark:border-gray-800 rounded-2xl focus:outline-none focus:border-brand-500/50 dark:focus:border-violet-500 focus:bg-white dark:focus:bg-black focus:ring-4 focus:ring-brand-500/5 dark:focus:ring-violet-500/5 transition-all duration-300 font-semibold text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500;
     }
 
     select.input-premium {
@@ -57,7 +57,7 @@
     }
 
     .sidebar-item-inactive {
-        @apply text-slate-500 dark:text-dark-text-muted hover:bg-slate-100 dark:hover:bg-dark-card hover:text-slate-700 dark:hover:text-dark-text;
+        @apply text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-gray-900 hover:text-slate-700 dark:hover:text-gray-200;
     }
 
     .gradient-text {
@@ -65,7 +65,7 @@
     }
 
     .badge-premium {
-        @apply px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-card text-slate-500 dark:text-dark-text-muted;
+        @apply px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-black text-slate-500 dark:text-gray-400;
     }
 }
 

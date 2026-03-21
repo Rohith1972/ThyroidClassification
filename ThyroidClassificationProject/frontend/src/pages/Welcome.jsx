@@ -1,31 +1,33 @@
 import { Link } from "react-router-dom";
 import { Stethoscope, Activity, ShieldCheck, ArrowRight, BrainCircuit } from "lucide-react";
 import { motion } from "framer-motion";
+import ThemeToggle from "../components/ThemeToggle";
 
 const Welcome = () => {
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-dark-background flex flex-col font-sans overflow-hidden relative selection:bg-brand-100 selection:text-brand-900">
+        <div className="min-h-screen bg-white dark:bg-black flex flex-col font-sans overflow-hidden relative selection:bg-brand-100 selection:text-brand-900">
             {/* Premium Background Elements */}
-            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] dark:bg-[radial-gradient(#374151_1px,transparent_1px)] [background-size:32px_32px] opacity-30"></div>
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#374151_1px,transparent_1px)] [background-size:32px_32px] opacity-30"></div>
             <div className="absolute top-[-20%] right-[-10%] pointer-events-none w-[800px] h-[800px] bg-brand-500/15 rounded-full blur-[120px] z-0 animate-[pulse_8s_ease-in-out_infinite]"></div>
-            <div className="absolute bottom-[-10%] left-[-10%] pointer-events-none w-[600px] h-[600px] bg-indigo-500/15 rounded-full blur-[120px] z-0 animate-[pulse_8s_ease-in-out_infinite]" style={{ animationDelay: '3s' }}></div>
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-slate-50/50 to-slate-50 dark:via-dark-surface/30 dark:to-dark-background z-0"></div>
+            <div className="absolute bottom-[-10%] left-[-10%] pointer-events-none w-[600px] h-[600px] bg-brand-400/15 rounded-full blur-[120px] z-0 animate-[pulse_8s_ease-in-out_infinite]" style={{ animationDelay: '3s' }}></div>
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-white/50 to-white dark:via-dark-surface/30 dark:to-black z-0"></div>
 
             {/* Navigation Bar */}
             <nav className="relative z-50 w-full px-8 py-6 flex items-center justify-between max-w-7xl mx-auto">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-500/20">
+                    <div className="w-10 h-10 bg-brand-500 dark:bg-violet-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-500/20 dark:shadow-violet-500/20">
                         <Stethoscope size={20} />
                     </div>
-                    <span className="font-black text-2xl tracking-tighter text-slate-900 dark:text-dark-text">
-                        Thyro<span className="text-brand-500">Lab</span>
+                    <span className="font-black text-2xl tracking-tighter text-slate-900 dark:text-white">
+                        Thyro<span className="text-brand-500 dark:text-violet-500">Lab</span>
                     </span>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Link to="/login" className="px-6 py-2.5 text-sm font-bold text-slate-600 dark:text-dark-text-muted hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                    <ThemeToggle />
+                    <Link to="/login" className="px-6 py-2.5 text-sm font-bold text-slate-600 dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-violet-400 transition-colors">
                         Signin
                     </Link>
-                    <Link to="/register" className="px-6 py-2.5 text-sm rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold shadow-md shadow-brand-500/20 transition-all duration-300">
+                    <Link to="/register" className="px-6 py-2.5 text-sm rounded-xl bg-brand-500 hover:bg-brand-600 dark:bg-violet-500 dark:hover:bg-violet-600 text-white font-bold shadow-md shadow-brand-500/20 dark:shadow-violet-500/20 transition-all duration-300">
                         Signup
                     </Link>
                 </div>
@@ -39,24 +41,24 @@ const Welcome = () => {
                     transition={{ duration: 0.6 }}
                     className="max-w-4xl w-full text-center space-y-8"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 mb-4 shadow-sm">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800 mb-4 shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
                         <span className="text-[10px] font-black uppercase tracking-widest">System Online • v4.2 Active</span>
                     </div>
                     
-                    <h1 className="text-7xl md:text-8xl font-black text-slate-900 dark:text-dark-text tracking-tighter leading-tight">
-                        Next-Gen <span className="text-transparent bg-clip-text bg-gradient-to-br from-brand-500 via-brand-600 to-indigo-600 relative inline-block">
+                    <h1 className="text-7xl md:text-8xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+                        Next-Gen <span className="text-transparent bg-clip-text bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 dark:from-violet-500 dark:via-violet-600 dark:to-violet-700 relative inline-block">
                             Thyroid
-                            <div className="absolute -bottom-2 left-0 w-full h-3 bg-brand-500/20 rounded-full blur-md"></div>
+                            <div className="absolute -bottom-2 left-0 w-full h-3 bg-brand-500/20 dark:bg-violet-500/20 rounded-full blur-md"></div>
                         </span> Diagnostics
                     </h1>
                     
-                    <p className="text-lg md:text-xl font-bold text-slate-500 dark:text-dark-text-muted max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-lg md:text-xl font-bold text-slate-500 dark:text-dark-text-secondary max-w-2xl mx-auto leading-relaxed">
                         Empowering clinicians with highly accurate, unified neural networks for immediate automated diagnostic screening and tracking.
                     </p>
 
                     <div className="flex items-center justify-center pt-10">
-                        <Link to="/login" className="px-10 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 transition-transform transform hover:scale-105 shadow-xl shadow-brand-500/25 border border-brand-600/30">
+                        <Link to="/login" className="px-10 py-4 bg-brand-500 hover:bg-brand-600 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 transition-transform transform hover:scale-105 shadow-xl shadow-brand-500/25 dark:shadow-violet-500/25 border border-brand-600/30 dark:border-violet-600/30">
                             Get Started <ArrowRight size={18} />
                         </Link>
                     </div>

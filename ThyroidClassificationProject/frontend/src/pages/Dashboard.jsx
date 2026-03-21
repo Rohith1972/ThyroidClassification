@@ -39,9 +39,9 @@ const StatCard = ({ title, value, icon: Icon, color, trend, delay = 0 }) => (
             )}
         </div>
         <div>
-            <p className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest mb-1.5">{title}</p>
+            <p className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest mb-1.5">{title}</p>
             <div className="flex items-baseline gap-2">
-                <h3 className="text-3xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight">{value}</h3>
+                <h3 className="text-3xl font-black dark:text-white text-slate-900 dark:text-white tracking-tight">{value}</h3>
                 <div className="badge-premium !py-0 !px-2 !text-[8px]">Analyzed</div>
             </div>
         </div>
@@ -87,8 +87,8 @@ const Dashboard = () => {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[400px] gap-6">
-                <div className="w-12 h-12 border-4 border-slate-100 dark:border-violet-900 border-t-brand-500 dark:border-violet-400 rounded-full animate-spin"></div>
-                <p className="font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest text-[10px]">Loading Intelligence Node...</p>
+                <div className="w-12 h-12 border-4 border-slate-100 dark:border-gray-800 border-t-brand-500 dark:border-violet-400 rounded-full animate-spin"></div>
+                <p className="font-bold dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest text-[10px]">Loading Intelligence Node...</p>
             </div>
         );
     }

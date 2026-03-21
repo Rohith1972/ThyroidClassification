@@ -31,7 +31,7 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-dark-background relative overflow-hidden font-sans">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-black relative overflow-hidden font-sans">
             <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[100px] -mr-48 -mt-48"></div>
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px] -ml-40 -mb-40"></div>
 
@@ -42,25 +42,25 @@ const Register = () => {
                 className="max-w-2xl w-full relative z-10 py-10"
             >
                 <div className="text-center mb-10">
-                    <div className="inline-flex p-4 bg-white dark:bg-dark-surface rounded-2xl shadow-premium border border-slate-100 dark:border-dark-border text-brand-500 mb-6 font-bold">
+                    <div className="inline-flex p-4 bg-white dark:bg-black rounded-2xl shadow-premium border border-slate-100 dark:border-gray-800 text-brand-500 dark:text-violet-500 mb-6 font-bold">
                         <UserPlus size={40} />
                     </div>
-                    <h1 className="text-5xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-2">
-                        Specialist <span className="text-brand-500">Sign Up</span>
+                    <h1 className="text-5xl font-black dark:text-white text-slate-900 dark:text-white tracking-tighter mb-2">
+                        Specialist <span className="text-brand-500 dark:text-violet-500">Sign Up</span>
                     </h1>
-                    <p className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-[0.4em]">Create Professional Account</p>
+                    <p className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-[0.4em]">Create Professional Account</p>
                 </div>
 
-                <div className="bg-white dark:bg-dark-surface p-10 rounded-[3rem] shadow-premium border border-slate-100 dark:border-dark-border">
+                <div className="bg-white dark:bg-black p-10 rounded-[3rem] shadow-premium border border-slate-100 dark:border-gray-800">
                     <form className="space-y-8" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Full Name</label>
+                                <label className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
                                 <div className="relative">
-                                    <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted" size={18} />
+                                    <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500" size={18} />
                                     <input
                                         type="text"
-                                        className="input-premium pl-14 h-16 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all"
+                                        className="input-premium pl-14 h-16 text-sm bg-white dark:bg-black border-slate-200 dark:border-gray-800 focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all"
                                         placeholder="Dr. John Doe"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
@@ -70,11 +70,11 @@ const Register = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Specialization</label>
+                                <label className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest ml-1">Specialization</label>
                                 <div className="relative">
-                                    <BriefcaseMedical className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted" size={18} />
+                                    <BriefcaseMedical className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500" size={18} />
                                     <select
-                                        className="input-premium pl-14 h-16 text-sm appearance-none cursor-pointer bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all"
+                                        className="input-premium pl-14 h-16 text-sm appearance-none cursor-pointer bg-white dark:bg-black border-slate-200 dark:border-gray-800 focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all"
                                         value={role}
                                         onChange={(e) => setRole(e.target.value)}
                                     >
@@ -84,12 +84,12 @@ const Register = () => {
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Institutional Email</label>
+                                <label className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest ml-1">Institutional Email</label>
                                 <div className="relative">
-                                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted" size={18} />
+                                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500" size={18} />
                                     <input
                                         type="email"
-                                        className="input-premium pl-14 h-16 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all"
+                                        className="input-premium pl-14 h-16 text-sm bg-white dark:bg-black border-slate-200 dark:border-gray-800 focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all"
                                         placeholder="specialist@thyrolab.ai"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -98,13 +98,13 @@ const Register = () => {
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Access Password</label>
+                                <label className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest ml-1">Access Password</label>
                                 <div className="relative">
-                                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted" size={18} />
+                                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500" size={18} />
                                     <input
                                         type="password"
-                                        className="input-premium pl-14 h-16 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all"
-                                        placeholder="•••••••••••"
+                                        className="input-premium pl-14 h-16 text-sm bg-white dark:bg-black border-slate-200 dark:border-gray-800 focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all"
+                                        placeholder="•••••••••••••"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
@@ -116,7 +116,7 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full h-18 text-base !rounded-2xl px-8 py-4 bg-brand-500 text-white font-bold rounded-2xl shadow-md shadow-brand-500/20 hover:bg-brand-600 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full h-18 text-base !rounded-2xl px-8 py-4 bg-brand-500 dark:bg-violet-500 text-white font-bold rounded-2xl shadow-md shadow-brand-500/20 dark:shadow-violet-500/20 hover:bg-brand-600 dark:hover:bg-violet-600 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <Loader2 className="animate-spin" size={24} />
@@ -128,10 +128,10 @@ const Register = () => {
                         </button>
                     </form>
 
-                    <div className="mt-10 text-center border-t border-slate-50 dark:border-dark-border pt-8">
-                        <p className="text-xs font-bold text-slate-500 dark:text-violet-500">
+                    <div className="mt-10 text-center border-t border-slate-200 dark:border-gray-800 pt-8">
+                        <p className="text-xs font-bold text-slate-500 dark:text-gray-400">
                             Already registered?{" "}
-                            <Link to="/login" className="text-brand-500 hover:underline dark:text-violet-600 font-black ml-1 text-base">
+                            <Link to="/login" className="text-brand-500 dark:text-violet-500 hover:underline font-black ml-1 text-base">
                                 Sign In
                             </Link>
                         </p>

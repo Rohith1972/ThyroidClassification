@@ -8,10 +8,10 @@ const ProtectedRoute = ({ allowedRoles, fallback = "/login", children }) => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-medical-base flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <Loader2 size={48} className="text-brand-500 animate-spin" />
-                    <p className="text-sm font-bold text-slate-400 uppercase tracking-widest animate-pulse">
+                    <Loader2 size={48} className="text-brand-500 dark:text-violet-500 animate-spin" />
+                    <p className="text-sm font-bold dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest animate-pulse">
                         Verifying Credentials...
                     </p>
                 </div>

@@ -27,7 +27,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-dark-background relative overflow-hidden font-sans">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-black relative overflow-hidden font-sans">
             {/* Soft Ambient Background Elements */}
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[100px] -mr-48 -mt-48"></div>
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px] -ml-40 -mb-40"></div>
@@ -39,24 +39,24 @@ const Login = () => {
                 className="max-w-md w-full relative z-10 flex flex-col gap-8"
             >
                 <div className="text-center">
-                    <div className="inline-flex p-4 bg-white dark:bg-dark-surface rounded-2xl shadow-premium border border-slate-100 dark:border-dark-border text-brand-500 mb-6">
+                    <div className="inline-flex p-4 bg-white dark:bg-black rounded-2xl shadow-premium border border-slate-100 dark:border-gray-800 text-brand-500 dark:text-violet-500 mb-6">
                         <Stethoscope size={40} />
                     </div>
-                    <h1 className="text-5xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-2">
-                        Thyro<span className="text-brand-500">Lab</span>
+                    <h1 className="text-5xl font-black dark:text-white text-slate-900 dark:text-white tracking-tighter mb-2">
+                        Thyro<span className="text-brand-500 dark:text-violet-500">Lab</span>
                     </h1>
-                    <p className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-[0.4em]">Secure Specialist Portal</p>
+                    <p className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-[0.4em]">Secure Specialist Portal</p>
                 </div>
 
-                <div className="bg-white dark:bg-dark-surface p-10 rounded-[2.5rem] shadow-premium border border-slate-100 dark:border-dark-border">
+                <div className="bg-white dark:bg-black p-10 rounded-[2.5rem] shadow-premium border border-slate-100 dark:border-gray-800">
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Specialist Email</label>
+                            <label className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest ml-1">Specialist Email</label>
                             <div className="relative">
-                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted" size={18} />
+                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500" size={18} />
                                 <input
                                     type="email"
-                                    className="input-premium pl-14 h-16 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all"
+                                    className="input-premium pl-14 h-16 text-sm bg-white dark:bg-black border-slate-200 dark:border-gray-800 focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all"
                                     placeholder="specialist@thyrolab.ai"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}

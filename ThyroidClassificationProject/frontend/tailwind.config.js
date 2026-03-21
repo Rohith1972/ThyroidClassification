@@ -8,13 +8,14 @@ export default {
     theme: {
         extend: {
             colors: {
+                // Light Theme - White and Blue
                 brand: {
                     50: '#f0f7ff',
                     100: '#e0effe',
                     200: '#bae0fd',
                     300: '#7cc8fb',
                     400: '#36abf7',
-                    500: '#0ea5e9', // Medical Sky Blue
+                    500: '#0ea5e9', // Primary Blue
                     600: '#0284c7',
                     700: '#0369a1',
                     800: '#075985',
@@ -23,34 +24,34 @@ export default {
                 },
                 accent: {
                     400: '#34d399',
-                    500: '#10b981', // Medical Emerald
+                    500: '#10b981', // Emerald accent
                     600: '#059669',
                 },
                 medical: {
-                    background: '#f8fafc',
-                    surface: '#ffffff',
-                    card: '#ffffff',
-                    border: '#e2e8f0',
-                    text: '#0f172a',
-                    muted: '#64748b'
+                    background: '#ffffff', // Pure white background
+                    surface: '#ffffff', // White surfaces
+                    card: '#ffffff', // White cards
+                    border: '#e2e8f0', // Light borders
+                    text: '#0f172a', // Dark text
+                    muted: '#64748b' // Muted text
                 },
-                // Dark mode colors - Full Dark & Violet Theme
+                // Dark Theme - Black and Violet
                 dark: {
-                    background: '#0a0a0f',
-                    surface: '#1a1a2e',
-                    card: '#252537',
-                    border: '#374151',
-                    text: '#e4e4e7',
-                    'text-secondary': '#9ca3af',
-                    'text-muted': '#6b7280',
-                    // Violet accents
+                    background: '#000000', // Pure black background
+                    surface: '#0a0a0f', // Dark surface
+                    card: '#1a1a2e', // Dark cards
+                    border: '#374151', // Dark borders
+                    text: '#ffffff', // White text
+                    'text-secondary': '#e4e4e7', // Light secondary text
+                    'text-muted': '#9ca3af', // Muted text
+                    // Violet accents for dark theme
                     violet: {
                         50: '#8b5cf6',
                         100: '#a78bfa',
                         200: '#c084fc',
                         300: '#a855f7',
                         400: '#818cf8',
-                        500: '#6366f1',
+                        500: '#6366f1', // Primary Violet
                         600: '#7c3aed',
                         700: '#6d28d9',
                         800: '#7c2d12',
@@ -58,8 +59,8 @@ export default {
                         950: '#3730a3',
                     },
                     // Dark gradients
-                    'gradient-start': '#1a1a2e',
-                    'gradient-end': '#374151',
+                    'gradient-start': '#0a0a0f',
+                    'gradient-end': '#1a1a2e',
                     'gradient-violet': '#6366f1'
                 }
             },

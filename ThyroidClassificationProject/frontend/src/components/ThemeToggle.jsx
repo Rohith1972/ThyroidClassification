@@ -41,8 +41,8 @@ const ThemeToggle = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 className={`relative p-3 rounded-xl border transition-all duration-300 ${
                     isDark 
-                        ? 'bg-slate-800 border-slate-700 text-yellow-400 hover:bg-slate-700' 
-                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                        ? 'bg-black border-gray-800 text-violet-400 hover:bg-gray-900' 
+                        : 'bg-white border-gray-200 text-blue-500 hover:bg-gray-50'
                 } shadow-sm`}
                 title="Change theme"
             >
@@ -69,8 +69,8 @@ const ThemeToggle = () => {
                         transition={{ duration: 0.2 }}
                         className={`absolute right-0 top-full mt-2 w-56 rounded-2xl border shadow-xl z-50 overflow-hidden ${
                             isDark
-                                ? 'bg-slate-800 border-slate-700'
-                                : 'bg-white border-slate-200'
+                                ? 'bg-black border-gray-800'
+                                : 'bg-white border-gray-200'
                         }`}
                     >
                         <div className="p-2">
@@ -87,19 +87,19 @@ const ThemeToggle = () => {
                                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
                                             isActive
                                                 ? isDark
-                                                    ? 'bg-brand-600 text-white shadow-lg'
-                                                    : 'bg-brand-500 text-white shadow-lg'
+                                                    ? 'bg-violet-600 text-white shadow-lg'
+                                                    : 'bg-blue-500 text-white shadow-lg'
                                                 : isDark
-                                                    ? 'hover:bg-slate-700 text-slate-300'
-                                                    : 'hover:bg-slate-100 text-slate-700'
+                                                    ? 'hover:bg-gray-900 text-gray-300'
+                                                    : 'hover:bg-gray-100 text-gray-700'
                                         }`}
                                     >
                                         <div className={`p-2 rounded-lg ${
                                             isActive
                                                 ? 'bg-white/20'
                                                 : isDark
-                                                    ? 'bg-slate-700'
-                                                    : 'bg-slate-100'
+                                                    ? 'bg-gray-800'
+                                                    : 'bg-gray-100'
                                         }`}>
                                             <Icon size={18} />
                                         </div>
@@ -108,8 +108,8 @@ const ThemeToggle = () => {
                                                 isActive
                                                     ? 'text-white'
                                                     : isDark
-                                                        ? 'text-slate-200'
-                                                        : 'text-slate-800'
+                                                        ? 'text-gray-200'
+                                                        : 'text-gray-800'
                                             }`}>
                                                 {themeOption.label}
                                             </div>
@@ -117,8 +117,8 @@ const ThemeToggle = () => {
                                                 isActive
                                                     ? 'text-white/80'
                                                     : isDark
-                                                        ? 'text-slate-400'
-                                                        : 'text-slate-500'
+                                                        ? 'text-gray-400'
+                                                        : 'text-gray-500'
                                             }`}>
                                                 {themeOption.description}
                                             </div>
@@ -127,7 +127,7 @@ const ThemeToggle = () => {
                                             <motion.div
                                                 layoutId="active-indicator"
                                                 className={`w-2 h-2 rounded-full ${
-                                                    isDark ? 'bg-white' : 'bg-brand-500'
+                                                    isDark ? 'bg-white' : 'bg-blue-500'
                                                 }`}
                                             />
                                         )}

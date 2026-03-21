@@ -48,19 +48,19 @@ const MainLayout = () => {
     ];
 
     return (
-        <div className="flex h-screen bg-medical-background dark:bg-dark-background font-sans selection:bg-brand-200 selection:text-brand-900 overflow-hidden">
+        <div className="flex h-screen bg-white dark:bg-black font-sans selection:bg-brand-200 selection:text-brand-900 overflow-hidden">
             {/* Clean Sidebar */}
-            <aside className="hidden lg:flex w-72 bg-medical-surface dark:bg-dark-surface flex-col h-full z-30 border-r border-medical-border dark:border-dark-border transition-all duration-500 overflow-y-auto">
+            <aside className="hidden lg:flex w-72 bg-white dark:bg-black flex-col h-full z-30 border-r border-slate-200 dark:border-gray-800 transition-all duration-500 overflow-y-auto">
                 <div className="p-8">
                     <div className="flex items-center gap-4 mb-12 group cursor-pointer" onClick={() => navigate("/app")}>
-                        <div className="w-12 h-12 bg-brand-500 rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform duration-300">
+                        <div className="w-12 h-12 bg-brand-500 dark:bg-violet-500 rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-500/20 dark:shadow-violet-500/20 group-hover:scale-105 transition-transform duration-300">
                             <Stethoscope size={24} />
                         </div>
                         <div>
-                            <span className="font-black dark:text-white text-2xl tracking-tighter text-slate-900 dark:text-dark-text block leading-tight">
-                                Thyro<span className="text-brand-500">Lab</span>
+                            <span className="font-black dark:text-white text-2xl tracking-tighter text-slate-900 dark:text-white block leading-tight">
+                                Thyro<span className="text-brand-500 dark:text-violet-500">Lab</span>
                             </span>
-                            <span className="text-[9px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest flex items-center gap-1.5">
+                            <span className="text-[9px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                                 <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse"></span>
                                 Diagnostic AI
                             </span>
@@ -68,7 +68,7 @@ const MainLayout = () => {
                     </div>
 
                     <nav className="space-y-2">
-                        <p className="px-4 text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-[0.3em] mb-4">Main Registry</p>
+                        <p className="px-4 text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-[0.3em] mb-4">Main Registry</p>
                         {navItems.map((item) => {
                             const Icon = item.icon;
                             const isActive = location.pathname === item.path;
@@ -78,7 +78,7 @@ const MainLayout = () => {
                                     to={item.path}
                                     className={`sidebar-item group ${isActive ? "sidebar-item-active" : "sidebar-item-inactive"}`}
                                 >
-                                    <div className={`p-2 rounded-lg transition-colors ${isActive ? "text-brand-600" : "text-slate-400 dark:text-dark-text-muted group-hover:text-brand-500"}`}>
+                                    <div className={`p-2 rounded-lg transition-colors ${isActive ? "text-brand-600 dark:text-violet-500" : "text-slate-400 dark:text-gray-500 group-hover:text-brand-500 dark:group-hover:text-violet-400"}`}>
                                         <Icon size={18} />
                                     </div>
                                     <span className="tracking-tight text-sm font-bold">{item.label}</span>
