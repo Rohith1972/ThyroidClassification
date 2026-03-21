@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:8080/api",
+    baseURL: "http://localhost:8081/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -22,9 +22,11 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     (response) => {
+        console.log("API Response:", response);
         return response;
     },
     (error) => {
+        console.log("API Error:", error);
         if (error.response && error.response.status === 401) {
             // Auto logout if 401
             localStorage.removeItem("user");

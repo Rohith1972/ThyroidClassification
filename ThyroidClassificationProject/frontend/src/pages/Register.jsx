@@ -22,7 +22,9 @@ const Register = () => {
             toast.success("Protocol Initialized Successfully");
             navigate("/login");
         } catch (error) {
-            toast.error("Registration Failure. Try again.");
+            console.error("Registration error:", error);
+            const errorMessage = error.response?.data?.message || error.message || "Registration Failure. Try again.";
+            toast.error(errorMessage);
         } finally {
             setLoading(false);
         }

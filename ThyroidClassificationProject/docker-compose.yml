@@ -43,6 +43,22 @@ services:
     networks:
       - thyroid-network
 
+  ai-service:
+    build: ./ai-service
+    container_name: thyroid_ai
+    ports:
+      - "8000:8000"
+    networks:
+      - thyroid-network
+
+  ai-service-1:
+    build: ./ai-service-1
+    container_name: thyroid_ai_1
+    ports:
+      - "8004:8000"
+    networks:
+      - thyroid-network
+
   ai-service-2:
     build: ./ai-service-2
     container_name: thyroid_ai_2

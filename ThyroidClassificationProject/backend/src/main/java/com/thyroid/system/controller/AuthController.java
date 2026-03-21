@@ -71,7 +71,17 @@ public class AuthController {
         user.setName(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(encoder.encode(signUpRequest.getPassword()));
-        user.setRole(signUpRequest.getRole() != null ? signUpRequest.getRole() : Role.ROLE_DOCTOR);
+        
+        // Convert String role to Role enum
+        Role userRole = Role.ROLE_DOCTOR; // default
+        if (signUpRequest.getRole() != null) {
+            try {
+                userRole = Role.valueOf(signUpRequest.getRole());
+            } catch (IllegalArgumentException e) {
+                userRole = Role.ROLE_DOCTOR; // fallback to default
+            }
+        }
+        user.setRole(userRole);
 
         userRepository.save(user);
 
