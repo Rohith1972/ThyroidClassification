@@ -72,7 +72,7 @@ const Patients = () => {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[400px] gap-6">
-                <div className="w-12 h-12 border-4 border-slate-100 dark:border-violet-900 border-t-brand-500 dark:border-violet-400 rounded-full animate-spin"></div>
+                <div className="w-12 h-12 border-4 border-slate-100 dark:border-violet-900 border-t-brand-500 dark:border-t-violet-400 rounded-full animate-spin"></div>
                 <p className="font-black text-slate-400 dark:text-dark-text-muted uppercase tracking-widest text-[10px]">Accessing Registry Nodes...</p>
             </div>
         );
@@ -90,7 +90,7 @@ const Patients = () => {
                             Verified Dataset
                         </span>
                     </div>
-                    <h2 className="text-4xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-2 italic">Clinical <span className="text-brand-500">Registry</span></h2>
+                    <h2 className="text-4xl font-black dark:text-white text-slate-900 tracking-tighter mb-2 italic">Clinical <span className="text-brand-500 dark:text-violet-500">Registry</span></h2>
                     <p className="text-slate-500 dark:text-violet-500 font-bold flex items-center gap-2 text-xs">
                         <Users size={14} className="text-brand-500 dark:text-violet-400" />
                         Managing <span className="text-brand-600 dark:text-violet-400 underline underline-offset-4 decoration-brand-200 dark:decoration-violet-800">{patients.length}</span> active patient protocol records
@@ -98,13 +98,13 @@ const Patients = () => {
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                     <div className="relative w-full sm:w-80 group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={16} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={16} />
                         <input
                             type="text"
                             placeholder="Filter ID or Name..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all shadow-sm text-sm font-bold placeholder:text-slate-400 dark:placeholder:text-dark-text-muted"
+                            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all shadow-sm text-sm font-bold placeholder:text-slate-400 dark:placeholder:text-dark-text-muted"
                         />
                     </div>
                     <div className="flex gap-2 w-full sm:w-auto relative">
@@ -180,7 +180,7 @@ const Patients = () => {
                                 >
                                     <td className="px-6 py-3">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-card text-brand-600 dark:text-violet-400 flex items-center justify-center font-black text-base border border-slate-200 dark:border-dark-border group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                                            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-card text-brand-600 dark:text-violet-400 flex items-center justify-center font-black text-base border border-slate-200 dark:border-dark-border group-hover:scale-110 group-hover:bg-brand-500 dark:group-hover:bg-violet-600 group-hover:text-white dark:group-hover:text-white transition-all">
                                                 {patient.name?.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
@@ -197,7 +197,7 @@ const Patients = () => {
                                             </div>
                                             <div className="w-24 h-1.5 bg-slate-100 dark:bg-dark-card rounded-full overflow-hidden border border-slate-200 dark:border-dark-border">
                                                 <div
-                                                    className="h-full bg-brand-500 rounded-full"
+                                                    className="h-full bg-brand-500 dark:bg-violet-500 rounded-full"
                                                     style={{ width: `${patient.prediction?.certainty ?? (patient.prediction?.confidence != null ? (patient.prediction.confidence > 1 ? patient.prediction.confidence : patient.prediction.confidence * 100) : 0)}%` }}
                                                 ></div>
                                             </div>
@@ -228,7 +228,7 @@ const Patients = () => {
                                     </td>
                                     <td className="px-6 py-3 text-right pr-6">
                                         <div className="flex items-center justify-end gap-1">
-                                            <button className="p-2 text-slate-400 dark:text-dark-text-muted hover:text-brand-500 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-dark-card rounded-xl transition-all border border-transparent hover:border-slate-200 dark:hover:border-dark-border">
+                                            <button className="p-2 text-slate-400 dark:text-dark-text-muted hover:text-brand-500 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-dark-card rounded-xl transition-all border border-transparent hover:border-slate-200 dark:hover:border-dark-border">
                                                 <ArrowUpRight size={16} />
                                             </button>
                                             <button className="p-2 text-slate-400 dark:text-dark-text-muted hover:text-slate-600 dark:hover:text-dark-text hover:bg-slate-100 dark:hover:bg-dark-card rounded-xl transition-all border border-transparent hover:border-slate-200 dark:hover:border-dark-border">
@@ -268,7 +268,7 @@ const Patients = () => {
                         <button 
                             key={i} 
                             onClick={() => setCurrentPage(i)}
-                            className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black transition-all ${i === currentPage ? 'bg-brand-500 text-white shadow-lg shadow-brand-500/20' : 'bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border text-slate-500 dark:text-dark-text hover:bg-slate-50 dark:hover:bg-dark-border'}`}
+                            className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black transition-all ${i === currentPage ? 'bg-brand-500 dark:bg-violet-600 text-white shadow-lg shadow-brand-500/20 dark:shadow-violet-900/20' : 'bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border text-slate-500 dark:text-dark-text hover:bg-slate-50 dark:hover:bg-dark-border'}`}
                         >
                             {i}
                         </button>

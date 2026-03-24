@@ -58,39 +58,6 @@ public class AIServiceImpl implements AIService {
         try {
             LabValues lv = patient.getLabValues();
             
-            // Handle AI_SERVICE_3: Multipart Image
-            if (aiServiceType == AIServiceType.AI_SERVICE_3) {
-                if (lv.getUltrasoundImageBase64() == null || lv.getUltrasoundImageBase64().isEmpty()) {
-                    Prediction fallback = new Prediction();
-                    fallback.setResult("Error - Missing Image");
-                    fallback.setConfidence(0.0);
-                    fallback.setServiceName(aiServiceType.getServiceName());
-                    return fallback;
-                }
-                
-                String base64 = lv.getUltrasoundImageBase64();
-                if (base64.contains(",")) {
-                    base64 = base64.split(",")[1];
-                }
-                byte[] imageBytes = Base64.getDecoder().decode(base64);
-
-                MultipartBodyBuilder builder = new MultipartBodyBuilder();
-                builder.part("file", imageBytes).filename("ultrasound.jpg").header("Content-Type", "image/jpeg");
-
-                Prediction prediction = webClient.post()
-                        .uri(serviceUrl + "/predict")
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .body(BodyInserters.fromMultipartData(builder.build()))
-                        .retrieve()
-                        .bodyToMono(Prediction.class)
-                        .block();
-                        
-                if (prediction != null) {
-                    prediction.setServiceName(aiServiceType.getServiceName());
-                }
-                return prediction;
-            }
-
             // Map to keys expected by the Python microservice
             HashMap<String, Object> request = new HashMap<>();
             request.put("age", (double) patient.getAge());
@@ -125,14 +92,7 @@ public class AIServiceImpl implements AIService {
             request.put("FTI_measured", lv.isFtiMeasured() ? 1 : 0);
             request.put("FTI", lv.getFti() != null ? lv.getFti() : 0.0);
 
-            // Add TI-RADS features for AI_SERVICE_2
-            if (aiServiceType == AIServiceType.AI_SERVICE_2) {
-                request.put("composition", lv.getComposition() != null ? lv.getComposition() : "solid");
-                request.put("echogenicity", lv.getEchogenicity() != null ? lv.getEchogenicity() : "hypoechoic");
-                request.put("shape", lv.getShape() != null ? lv.getShape() : "wider-than-tall");
-                request.put("calcification", lv.getCalcification() != null ? lv.getCalcification() : "none");
-                request.put("margin", lv.getMargin() != null ? lv.getMargin() : "smooth");
-            }
+            // No extra features added for AI_SERVICE_2 since it's HistGradientBoosting now
 
             Prediction prediction = webClient.post()
                     .uri(serviceUrl + "/predict")

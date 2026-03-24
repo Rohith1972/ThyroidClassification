@@ -18,36 +18,12 @@ services:
       - "8080:8080"
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/thyroid_db
-      - AI_SERVICE_URL=http://ai-service:8000
+      - AI_SERVICE_URL=http://ai-service-1:8000
+      - AI_SERVICE_URL_2=http://ai-service-2:8000
     depends_on:
       - mongodb
-      - ai-service
-    networks:
-      - thyroid-network
-
-  ai-service:
-    build: ./ai-service
-    container_name: thyroid_ai
-    ports:
-      - "8000:8000"
-    networks:
-      - thyroid-network
-
-  frontend:
-    build: ./frontend
-    container_name: thyroid_frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    networks:
-      - thyroid-network
-
-  ai-service:
-    build: ./ai-service
-    container_name: thyroid_ai
-    ports:
-      - "8000:8000"
+      - ai-service-1
+      - ai-service-2
     networks:
       - thyroid-network
 
@@ -67,22 +43,15 @@ services:
     networks:
       - thyroid-network
 
-  ai-service-3:
-    build: ./ai-service-3
-    container_name: thyroid_ai_3
+  frontend:
+    build: ./frontend
+    container_name: thyroid_frontend
     ports:
-      - "8002:8000"
+      - "3000:3000"
+    depends_on:
+      - backend
     networks:
       - thyroid-network
-
-  ai-service-4:
-    build: ./ai-service-4
-    container_name: thyroid_ai_4
-    ports:
-      - "8003:8000"
-    networks:
-      - thyroid-network
-
 
 networks:
   thyroid-network:

@@ -2,7 +2,7 @@ package com.thyroid.system.model;
 
 public enum AIServiceType {
     AI_SERVICE_1("RandomForest Model", "http://localhost:8000", "ai-service-1"),
-    AI_SERVICE_2("TI-RADS CNN Model", "http://localhost:8001", "ai-service-2"),
+    AI_SERVICE_2("HistGB Thyroid Service", "http://localhost:8001", "ai-service-2"),
     AI_SERVICE_3("Deep Learning CNN", "http://localhost:8002", "ai-service-3"),
     AI_SERVICE_4("HistGradientBoosting", "http://localhost:8003", "ai-service-4");
 

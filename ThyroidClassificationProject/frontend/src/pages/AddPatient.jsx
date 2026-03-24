@@ -19,7 +19,8 @@ import {
     Cpu,
     Zap,
     Upload,
-    ImageIcon
+    ImageIcon,
+    Loader2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -134,9 +135,7 @@ const AddPatient = () => {
     // Fallback static AI services in case the API call fails
     const FALLBACK_AI_SERVICES = [
         { name: "AI_SERVICE_1", displayName: "RandomForest Model", serviceName: "ai-service-1" },
-        { name: "AI_SERVICE_2", displayName: "TI-RADS CNN Model", serviceName: "ai-service-2" },
-        { name: "AI_SERVICE_3", displayName: "Deep Learning CNN", serviceName: "ai-service-3" },
-        { name: "AI_SERVICE_4", displayName: "HistGradientBoosting", serviceName: "ai-service-4" },
+        { name: "AI_SERVICE_2", displayName: "HistGB Thyroid Service", serviceName: "ai-service-2" },
     ];
 
     const [aiServices, setAiServices] = useState(FALLBACK_AI_SERVICES);
@@ -247,7 +246,7 @@ const AddPatient = () => {
         >
             <header className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8 pb-4 border-b border-slate-200 dark:border-dark-border">
                 <div>
-                    <h2 className="text-3xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-1 uppercase italic">Patient <span className="text-brand-500">Inbound</span></h2>
+                    <h2 className="text-3xl font-black dark:text-white text-slate-900 tracking-tighter mb-1 uppercase italic">Patient <span className="text-brand-500 dark:text-violet-500">Inbound</span></h2>
                     <p className="text-slate-400 dark:text-violet-500 text-[10px] font-bold uppercase tracking-[0.2em]">Clinical Intake Node v4.2</p>
                 </div>
                 <div className="flex items-center gap-4">
@@ -260,7 +259,7 @@ const AddPatient = () => {
                         form="patient-form"
                         onClick={handleSubmit(onSubmit)}
                         disabled={loading}
-                        className="flex items-center gap-2 px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-all font-bold uppercase tracking-widest text-[10px] disabled:opacity-50 disabled:cursor-not-allowed border border-brand-500"
+                        className="flex items-center gap-2 px-6 py-3 bg-brand-500 dark:bg-violet-600 hover:bg-brand-600 dark:hover:bg-violet-500 text-white rounded-xl transition-all font-bold uppercase tracking-widest text-[10px] disabled:opacity-50 disabled:cursor-not-allowed border border-brand-500 dark:border-violet-600"
                     >
                         {loading ? (
                             <Loader2 className="animate-spin" size={20} />
@@ -275,29 +274,29 @@ const AddPatient = () => {
             </header>
             <form id="patient-form" onSubmit={handleSubmit(onSubmit)} className="space-y-12">
                 {/* Section 1: Identity */}
-                <FormSection title="Biological Data" subtitle="Core Patient Info" icon={User} color="bg-brand-500">
+                <FormSection title="Biological Data" subtitle="Core Patient Info" icon={User} color="bg-brand-500 dark:bg-violet-600">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Full Name</label>
+                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
                             <div className="relative group">
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={18} />
-                                <input {...register('name')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all" placeholder="Subject Alpha" />
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={18} />
+                                <input {...register('name')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all" placeholder="Subject Alpha" />
                             </div>
                             {errors.name && <p className="text-[10px] text-rose-500 dark:text-rose-400 font-bold mt-1 ml-1">{errors.name.message}</p>}
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Subject Age</label>
+                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 uppercase tracking-widest ml-1">Subject Age</label>
                             <div className="relative group">
-                                <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={18} />
-                                <input type="number" {...register('age')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all" placeholder="25" />
+                                <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={18} />
+                                <input type="number" {...register('age')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all" placeholder="25" />
                             </div>
                             {errors.age && <p className="text-[10px] text-rose-500 dark:text-rose-400 font-bold mt-1 ml-1">{errors.age.message}</p>}
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Gender Node</label>
+                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 uppercase tracking-widest ml-1">Gender Node</label>
                             <div className="relative group">
-                                <Dna className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 transition-colors" size={18} />
-                                <select {...register('gender')} className="input-premium pl-12 h-14 text-sm appearance-none cursor-pointer bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all">
+                                <Dna className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={18} />
+                                <select {...register('gender')} className="input-premium pl-12 h-14 text-sm appearance-none cursor-pointer bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all">
                                     <option value="Male">XY MALE</option>
                                     <option value="Female">XX FEMALE</option>
                                 </select>
@@ -307,13 +306,13 @@ const AddPatient = () => {
                 </FormSection>
 
                 {/* AI Service Selection */}
-                <FormSection title="AI Service Selection" subtitle="Choose Neural Processing Engine" icon={Cpu} color="bg-purple-500">
+                <FormSection title="AI Service Selection" subtitle="Choose Neural Processing Engine" icon={Cpu} color="bg-purple-500 dark:bg-violet-600">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {aiServices.map((service) => (
                             <label key={service.name} className={`relative cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 ${
                                 watch('aiServiceType') === service.name 
-                                    ? 'bg-purple-50 border-purple-300 shadow-lg shadow-purple-500/10' 
-                                    : 'bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200'
+                                    ? 'bg-purple-50 border-purple-300 shadow-lg shadow-purple-500/10 dark:bg-violet-900/40 dark:border-violet-500 dark:shadow-violet-900/50' 
+                                    : 'bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200 dark:bg-dark-card dark:border-dark-border dark:hover:bg-dark-surface dark:hover:border-violet-900'
                             }`}>
                                     <input
                                         type="radio"
@@ -324,22 +323,22 @@ const AddPatient = () => {
                                     <div className="flex items-start gap-4">
                                         <div className={`p-3 rounded-xl transition-all ${
                                             watch('aiServiceType') === service.name 
-                                                ? 'bg-purple-500 text-white shadow-lg' 
-                                                : 'bg-slate-100 text-slate-400'
+                                                ? 'bg-purple-500 text-white shadow-lg dark:bg-violet-600' 
+                                                : 'bg-slate-100 text-slate-400 dark:bg-dark-surface dark:text-dark-text-muted'
                                         }`}>
                                             <Cpu size={20} />
                                         </div>
                                         <div className="flex-1">
-                                            <h4 className="font-black text-slate-900 text-sm uppercase tracking-tight mb-1">
+                                            <h4 className={`font-black text-sm uppercase tracking-tight mb-1 ${watch('aiServiceType') === service.name ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-dark-text'}`}>
                                                 {service.displayName}
                                             </h4>
-                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                                            <p className="text-[9px] font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">
                                                 {service.serviceName}
                                             </p>
                                             <div className="mt-3 flex items-center gap-2">
-                                                <Zap size={12} className="text-purple-500" />
+                                                <Zap size={12} className={`text-purple-500 ${watch('aiServiceType') === service.name ? 'dark:text-violet-400' : 'dark:text-dark-text-muted'}`} />
                                                 <span className={`text-[8px] font-bold uppercase tracking-widest ${
-                                                    watch('aiServiceType') === service.name ? 'text-purple-600' : 'text-slate-400'
+                                                    watch('aiServiceType') === service.name ? 'text-purple-600 dark:text-violet-400' : 'text-slate-400 dark:text-dark-text-muted'
                                                 }`}>
                                                     {watch('aiServiceType') === service.name ? 'SELECTED' : 'AVAILABLE'}
                                                 </span>
@@ -355,58 +354,11 @@ const AddPatient = () => {
                     {/* Conditional Sections based on AI Service Selection */}
                     {watch('aiServiceType') !== 'AI_SERVICE_3' && (
                         <>
-                            {watch('aiServiceType') === 'AI_SERVICE_2' && (
-                                <FormSection title="Ultrasound Features" subtitle="TI-RADS Image Parameters" icon={ImageIcon} color="bg-blue-500">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-1">Composition</label>
-                                            <select {...register('composition')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4 bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all">
-                                                <option value="solid">Solid</option>
-                                                <option value="cystic">Cystic</option>
-                                                <option value="spongiform">Spongiform</option>
-                                                <option value="mixed">Mixed</option>
-                                            </select>
-                                        </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Echogenicity</label>
-                                            <select {...register('echogenicity')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4">
-                                                <option value="hypoechoic">Hypoechoic</option>
-                                                <option value="very hypoechoic">Very Hypoechoic</option>
-                                                <option value="isoechoic">Isoechoic</option>
-                                                <option value="hyperechoic">Hyperechoic</option>
-                                            </select>
-                                        </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Shape</label>
-                                            <select {...register('shape')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4">
-                                                <option value="wider-than-tall">Wider-than-tall</option>
-                                                <option value="taller-than-wide">Taller-than-wide</option>
-                                            </select>
-                                        </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Calcification</label>
-                                            <select {...register('calcification')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4">
-                                                <option value="none">None or Large Comet-tail</option>
-                                                <option value="macrocalcification">Macrocalcification</option>
-                                                <option value="peripheral">Peripheral</option>
-                                                <option value="punctate">Punctate</option>
-                                            </select>
-                                        </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Margin</label>
-                                            <select {...register('margin')} className="input-premium h-14 text-sm appearance-none cursor-pointer px-4">
-                                                <option value="smooth">Smooth</option>
-                                                <option value="ill-defined">Ill-defined</option>
-                                                <option value="lobulated">Lobulated</option>
-                                                <option value="extrathyroidal">Extrathyroidal extension</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </FormSection>
-                            )}
+                            {/* Removed TI-RADS Ultrasound Features for AI_SERVICE_2 since it is changed to HistGB Model */}
+                                {/* Removed Ultrasound Features component */}
                             
                             {/* Section 2: Laboratory Markers */}
-                    <FormSection title="Diagnostic Markers" subtitle="Neural Processing Inputs" icon={FlaskConical} color="bg-rose-500">
+                    <FormSection title="Diagnostic Markers" subtitle="Neural Processing Inputs" icon={FlaskConical} color="bg-rose-500 dark:bg-violet-600">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {[
                                 { id: 'tsh', measured: 'tshMeasured', label: 'TSH Indicator', unit: 'mIU/L', icon: Activity },
@@ -414,23 +366,23 @@ const AddPatient = () => {
                                 { id: 't4u', measured: 't4uMeasured', label: 'T4U Matrix', unit: 'Ratio', icon: FlaskConical },
                                 { id: 'fti', measured: 'ftiMeasured', label: 'FTI Score', unit: 'Numeric', icon: Stethoscope },
                             ].map((field) => (
-                                <div key={field.id} className={`p-8 rounded-3xl border transition-all duration-300 ${watch(field.measured) ? 'bg-slate-50 border-brand-200' : 'bg-white border-slate-100 hover:bg-slate-50/50'}`}>
+                                <div key={field.id} className={`p-8 rounded-3xl border transition-all duration-300 ${watch(field.measured) ? 'bg-slate-50 border-brand-200 dark:bg-violet-900/10 dark:border-violet-800' : 'bg-white border-slate-100 dark:bg-dark-card dark:border-dark-border hover:bg-slate-50/50 dark:hover:bg-dark-surface'}`}>
                                     <div className="flex justify-between items-center">
                                         <div className="flex items-center gap-4">
-                                            <div className={`p-3 rounded-xl ${watch(field.measured) ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                            <div className={`p-3 rounded-xl ${watch(field.measured) ? 'bg-brand-500 dark:bg-violet-600 text-white' : 'bg-slate-100 dark:bg-dark-surface text-slate-400 dark:text-dark-text-muted'}`}>
                                                 <field.icon size={20} />
                                             </div>
                                             <div>
-                                                <label className="text-sm font-black text-slate-900 uppercase tracking-tight">{field.label}</label>
+                                                <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{field.label}</label>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase">{field.unit}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <span className={`text-[9px] font-bold uppercase transition-colors ${watch(field.measured) ? 'text-brand-600' : 'text-slate-300'}`}>Measured?</span>
+                                            <span className={`text-[9px] font-bold uppercase transition-colors ${watch(field.measured) ? 'text-brand-600 dark:text-violet-400' : 'text-slate-300 dark:text-dark-text-muted'}`}>Measured?</span>
                                             <label className="relative cursor-pointer">
                                                 <input type="checkbox" {...register(field.measured)} className="sr-only peer" />
-                                                <div className="w-14 h-8 bg-slate-100 peer-checked:bg-brand-500 rounded-full transition-all border border-slate-200"></div>
-                                                <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-6 shadow-md"></div>
+                                                <div className="w-14 h-8 bg-slate-100 dark:bg-dark-surface peer-checked:bg-brand-500 dark:peer-checked:bg-violet-500 rounded-full transition-all border border-slate-200 dark:border-dark-border"></div>
+                                                <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-white dark:bg-dark-card rounded-full transition-transform peer-checked:translate-x-6 shadow-md"></div>
                                             </label>
                                         </div>
                                     </div>
@@ -443,12 +395,12 @@ const AddPatient = () => {
                                                 exit={{ opacity: 0, height: 0, marginTop: 0 }}
                                                 className="overflow-hidden"
                                             >
-                                                <div className="pt-4 border-t border-slate-200">
+                                                <div className="pt-4 border-t border-slate-200 dark:border-dark-border">
                                                     <input
                                                         type="number"
                                                         step="0.001"
                                                         {...register(field.id)}
-                                                        className="w-full bg-white px-6 py-4 border-2 border-brand-100 rounded-2xl focus:outline-none focus:border-brand-500 transition-all text-2xl font-black text-slate-900 placeholder:text-slate-100"
+                                                        className="w-full bg-white dark:bg-dark-card px-6 py-4 border-2 border-brand-100 dark:border-violet-900/30 rounded-2xl focus:outline-none focus:border-brand-500 dark:focus:border-violet-500 transition-all text-2xl font-black text-slate-900 dark:text-white placeholder:text-slate-100 dark:placeholder:text-dark-text-muted"
                                                         placeholder="0.00"
                                                         autoFocus
                                                     />
@@ -461,21 +413,21 @@ const AddPatient = () => {
                             ))}
 
                             {/* Special case for T3 Measured only as per model features */}
-                            <div className={`p-8 rounded-3xl border transition-all duration-300 ${watch('t3Measured') ? 'bg-emerald-50 border-emerald-200' : 'bg-white border-slate-100'}`}>
+                            <div className={`p-8 rounded-3xl border transition-all duration-300 ${watch('t3Measured') ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/10 dark:border-emerald-800' : 'bg-white border-slate-100 dark:bg-dark-card dark:border-dark-border'}`}>
                                 <div className="flex justify-between items-center">
                                     <div className="flex items-center gap-4">
-                                        <div className={`p-3 rounded-xl ${watch('t3Measured') ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                        <div className={`p-3 rounded-xl ${watch('t3Measured') ? 'bg-emerald-500 text-white dark:bg-emerald-600' : 'bg-slate-100 text-slate-400 dark:bg-dark-surface dark:text-dark-text-muted'}`}>
                                             <Beaker size={20} />
                                         </div>
                                         <div>
-                                            <label className="text-sm font-black text-slate-900 uppercase tracking-tight">T3 Status</label>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase">Binary Flag Only</p>
+                                            <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">T3 Status</label>
+                                            <p className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase">Binary Flag Only</p>
                                         </div>
                                     </div>
                                     <label className="relative cursor-pointer">
                                         <input type="checkbox" {...register('t3Measured')} className="sr-only peer" />
-                                        <div className="w-14 h-8 bg-slate-100 peer-checked:bg-emerald-500 rounded-full transition-all border border-slate-200"></div>
-                                        <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-6 shadow-md"></div>
+                                        <div className="w-14 h-8 bg-slate-100 dark:bg-dark-surface peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-600 rounded-full transition-all border border-slate-200 dark:border-dark-border"></div>
+                                        <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-white dark:bg-dark-card rounded-full transition-transform peer-checked:translate-x-6 shadow-md"></div>
                                     </label>
                                 </div>
                             </div>
@@ -483,7 +435,7 @@ const AddPatient = () => {
                     </FormSection>
 
                     {/* Section 3: Clinical History */}
-                    <FormSection title="Medical Context" subtitle="Metabolic History Flags" icon={Activity} color="bg-emerald-500">
+                    <FormSection title="Medical Context" subtitle="Metabolic History Flags" icon={Activity} color="bg-emerald-500 dark:bg-violet-600">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {[
                                 { id: 'onThyroxine', label: 'On Thyroxine' },
@@ -500,11 +452,11 @@ const AddPatient = () => {
                                 { id: 'tumor', label: 'Neoplasm' },
                                 { id: 'hypopituitary', label: 'Hypopituitary' },
                                 { id: 'psych', label: 'Psychotropic' },
-                            ].map(flag => (
-                                <label key={flag.id} className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer transition-all border ${watch(flag.id) ? 'bg-emerald-50 border-emerald-200 text-emerald-600' : 'bg-white border-slate-100 text-slate-400 hover:bg-slate-50'}`}>
+                             ].map(flag => (
+                                <label key={flag.id} className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer transition-all border ${watch(flag.id) ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/10 dark:border-emerald-800 dark:text-emerald-400' : 'bg-white border-slate-100 text-slate-400 hover:bg-slate-50 dark:bg-dark-card dark:border-dark-border dark:text-dark-text-muted dark:hover:bg-dark-surface'}`}>
                                     <div className="relative">
                                         <input type="checkbox" {...register(flag.id)} className="sr-only" />
-                                        <div className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors ${watch(flag.id) ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-transparent'}`}>
+                                        <div className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors ${watch(flag.id) ? 'bg-emerald-500 border-emerald-500 text-white dark:bg-emerald-600 dark:border-emerald-600' : 'bg-white border-slate-200 text-transparent dark:bg-dark-surface dark:border-dark-border'}`}>
                                             <Check size={14} />
                                         </div>
                                     </div>
@@ -518,7 +470,7 @@ const AddPatient = () => {
 
                     {/* Section 3 for Upload */}
                     {watch('aiServiceType') === 'AI_SERVICE_3' && (
-                        <FormSection title="Ultrasound Upload" subtitle="Deep Learning Image Input" icon={Upload} color="bg-indigo-500">
+                        <FormSection title="Ultrasound Upload" subtitle="Deep Learning Image Input" icon={Upload} color="bg-indigo-500 dark:bg-violet-600">
                             <div className="flex flex-col items-center justify-center p-10 border-2 border-dashed border-indigo-200 rounded-3xl bg-indigo-50/50 hover:bg-indigo-50 transition-colors">
                                 {imagePreview ? (
                                     <div className="relative">
@@ -547,12 +499,12 @@ const AddPatient = () => {
                     )}
 
                     {/* Final Actions */}
-                    <div className="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-8">
-                        <div className="flex items-center gap-4 text-slate-400 max-w-sm">
-                            <AlertCircle size={24} className="text-brand-500 shrink-0" />
+                    <div className="pt-10 border-t border-slate-100 dark:border-dark-border flex flex-col sm:flex-row justify-between items-center gap-8">
+                        <div className="flex items-center gap-4 text-slate-400 dark:text-dark-text-muted max-w-sm">
+                            <AlertCircle size={24} className="text-brand-500 dark:text-violet-500 shrink-0" />
                             <p className="text-[9px] font-bold uppercase tracking-widest leading-relaxed">System Verification: Laboratory metrics will be validated against Neural Model v4.2 before finalization.</p>
                         </div>
-                        <button type="submit" disabled={loading} className="btn-primary !h-20 !px-16 w-full sm:w-auto text-lg shadow-xl shadow-brand-500/20 active:scale-95 transition-all">
+                        <button type="submit" disabled={loading} className="btn-primary !h-20 !px-16 w-full sm:w-auto text-lg shadow-xl shadow-brand-500/20 dark:shadow-violet-900/40 active:scale-95 transition-all">
                             {loading ? (
                                 <Activity className="animate-spin text-white" size={24} />
                             ) : (

@@ -87,8 +87,8 @@ const Dashboard = () => {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[400px] gap-6">
-                <div className="w-12 h-12 border-4 border-slate-100 dark:border-gray-800 border-t-brand-500 dark:border-violet-400 rounded-full animate-spin"></div>
-                <p className="font-bold dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest text-[10px]">Loading Intelligence Node...</p>
+                <div className="w-12 h-12 border-4 border-slate-100 dark:border-gray-800 border-t-brand-500 dark:border-t-violet-400 rounded-full animate-spin"></div>
+                <p className="font-bold dark:text-gray-400 text-slate-400 uppercase tracking-widest text-[10px]">Loading Intelligence Node...</p>
             </div>
         );
     }
@@ -105,7 +105,7 @@ const Dashboard = () => {
                             Live Analytics
                         </span>
                     </div>
-                    <h1 className="text-4xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tighter mb-2 italic">Diagnostic <span className="text-brand-500">Board</span></h1>
+                    <h1 className="text-4xl font-black dark:text-white text-slate-900 tracking-tighter mb-2 italic">Diagnostic <span className="text-brand-500 dark:text-violet-500">Board</span></h1>
                     <p className="text-slate-500 dark:text-violet-500 font-bold flex items-center gap-2 text-xs">
                         <Clock size={14} className="text-brand-500 dark:text-violet-400" />
                         Last synchronization: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -125,10 +125,10 @@ const Dashboard = () => {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard title="Total Lab Registry" value={stats.total} icon={Users} color="bg-brand-500" trend="+12%" delay={0.1} />
+                <StatCard title="Total Lab Registry" value={stats.total} icon={Users} color="bg-brand-500 dark:bg-violet-600" trend="+12%" delay={0.1} />
                 <StatCard title="Positive Findings" value={stats.positive} icon={Activity} color="bg-rose-500" trend="+3%" delay={0.2} />
                 <StatCard title="Stable Findings" value={stats.negative} icon={ShieldCheck} color="bg-emerald-500" trend="+8%" delay={0.3} />
-                <StatCard title="Model Accuracy" value={stats.accuracy} icon={Zap} color="bg-amber-500" trend="+2%" delay={0.4} />
+                <StatCard title="Model Accuracy" value={stats.accuracy} icon={Zap} color="bg-amber-500 dark:bg-amber-600" trend="+2%" delay={0.4} />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -150,8 +150,8 @@ const Dashboard = () => {
                             <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.1} />
-                                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.1} />
+                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#475569" />
@@ -182,7 +182,7 @@ const Dashboard = () => {
                                 <Area
                                     type="monotone"
                                     dataKey="count"
-                                    stroke="#6366f1"
+                                    stroke="#8b5cf6"
                                     strokeWidth={3}
                                     fillOpacity={1}
                                     fill="url(#colorCount)"
@@ -199,7 +199,7 @@ const Dashboard = () => {
                     transition={{ delay: 0.6 }}
                     className="card-premium flex flex-col"
                 >
-                    <h3 className="text-lg font-black text-slate-900 tracking-tight uppercase mb-2">Findings Mix</h3>
+                    <h3 className="text-lg font-black dark:text-white text-slate-900 tracking-tight uppercase mb-2">Findings Mix</h3>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-8">Relative Frequency</p>
 
                     <div className="flex-1 space-y-6">

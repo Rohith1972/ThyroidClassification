@@ -95,7 +95,7 @@ const MainLayout = () => {
                         onClick={() => setIsProfileOpen(!isProfileOpen)}
                     >
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-white dark:bg-dark-surface border border-medical-border dark:border-dark-border rounded-xl flex items-center justify-center text-brand-500 font-black shadow-sm group-hover:bg-brand-500 group-hover:text-white transition-all">
+                            <div className="w-10 h-10 bg-white dark:bg-dark-surface border border-medical-border dark:border-dark-border rounded-xl flex items-center justify-center text-brand-500 dark:text-violet-400 font-black shadow-sm group-hover:bg-brand-500 dark:group-hover:bg-violet-600 group-hover:text-white dark:group-hover:text-white transition-all">
                                 {currentUser?.username?.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -118,12 +118,12 @@ const MainLayout = () => {
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <div className="flex flex-col items-center text-center">
-                                        <div className="w-16 h-16 bg-brand-50 border-2 border-brand-100 rounded-2xl flex items-center justify-center text-brand-600 font-black text-2xl mb-3 shadow-inner relative">
+                                        <div className="w-16 h-16 bg-brand-50 dark:bg-violet-900/40 border-2 border-brand-100 dark:border-violet-800 rounded-2xl flex items-center justify-center text-brand-600 dark:text-violet-400 font-black text-2xl mb-3 shadow-inner relative">
                                             {currentUser?.username?.charAt(0).toUpperCase()}
-                                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></div>
+                                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white dark:border-dark-surface rounded-full"></div>
                                         </div>
                                         <h4 className="font-black dark:text-white text-slate-900 dark:text-dark-text text-lg tracking-tight">Dr. {currentUser?.username}</h4>
-                                        <p className="text-[9px] font-bold text-brand-500 uppercase tracking-widest mb-4">Lead Diagnostician</p>
+                                        <p className="text-[9px] font-bold text-brand-500 dark:text-violet-400 uppercase tracking-widest mb-4">Lead Diagnostician</p>
                                         
                                         <div className="w-full bg-medical-card dark:bg-dark-card rounded-xl p-3 mb-4 border border-medical-border dark:border-dark-border">
                                             <div className="flex justify-between items-center mb-2">
@@ -176,7 +176,7 @@ const MainLayout = () => {
                                 value={globalSearchTerm}
                                 onChange={(e) => setGlobalSearchTerm(e.target.value)}
                                 onKeyDown={handleGlobalSearch}
-                                className="w-full pl-12 pr-4 py-3 bg-medical-card dark:bg-dark-card border border-medical-border dark:border-dark-border rounded-xl focus:bg-white dark:focus:bg-dark-surface focus:border-brand-500 focus:outline-none transition-all text-xs font-bold placeholder:text-slate-400 dark:placeholder:text-dark-text-muted"
+                                className="w-full pl-12 pr-4 py-3 bg-medical-card dark:bg-dark-card border border-medical-border dark:border-dark-border rounded-xl focus:bg-white dark:focus:bg-dark-surface focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all text-xs font-bold placeholder:text-slate-400 dark:placeholder:text-dark-text-muted"
                             />
                         </div>
                     </div>
@@ -196,8 +196,8 @@ const MainLayout = () => {
                         <div className="flex items-center gap-3">
                             <div className="text-right">
                                 <p className="text-[10px] font-black dark:text-white text-slate-400 dark:text-dark-text-muted uppercase leading-none mb-1">AI Health</p>
-                                <p className="text-[10px] font-black text-brand-500 uppercase flex items-center justify-end gap-1">
-                                    <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-pulse"></span>
+                                <p className="text-[10px] font-black text-brand-500 dark:text-violet-500 uppercase flex items-center justify-end gap-1">
+                                    <span className="w-1.5 h-1.5 bg-brand-500 dark:bg-violet-500 rounded-full animate-pulse"></span>
                                     Sync Live
                                 </p>
                             </div>
@@ -221,10 +221,10 @@ const MainLayout = () => {
             {/* Mobile Navigation Header */}
             <header className="lg:hidden fixed top-0 w-full bg-medical-surface dark:bg-dark-surface border-b border-medical-border dark:border-dark-border z-40 px-6 py-4 flex justify-between items-center shadow-sm">
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-brand-500 rounded-lg flex items-center justify-center text-white">
+                    <div className="w-9 h-9 bg-brand-500 dark:bg-violet-600 rounded-lg flex items-center justify-center text-white">
                         <Stethoscope size={20} />
                     </div>
-                    <span className="font-bold text-lg text-slate-900">Thyro<span className="text-brand-500">Lab</span></span>
+                    <span className="font-bold text-lg text-slate-900 dark:text-white">Thyro<span className="text-brand-500 dark:text-violet-500">Lab</span></span>
                 </div>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-600 bg-slate-100 rounded-lg">
                     {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}

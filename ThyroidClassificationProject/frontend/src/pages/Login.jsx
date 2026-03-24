@@ -29,8 +29,8 @@ const Login = () => {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-black relative overflow-hidden font-sans">
             {/* Soft Ambient Background Elements */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[100px] -mr-48 -mt-48"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px] -ml-40 -mb-40"></div>
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-500/5 dark:bg-violet-500/10 rounded-full blur-[100px] -mr-48 -mt-48 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-[100px] -ml-40 -mb-40 pointer-events-none"></div>
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -68,13 +68,13 @@ const Login = () => {
                         <div className="space-y-2">
                             <div className="flex justify-between items-center ml-1">
                                 <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">Security Pin</label>
-                                <Link to="/forgot-password" className="text-[10px] font-bold text-brand-500 hover:text-brand-600 transition-colors uppercase">Forgot?</Link>
+                                <Link to="/forgot-password" className="text-[10px] font-bold text-brand-500 dark:text-violet-500 hover:text-brand-600 dark:hover:text-violet-400 transition-colors uppercase">Forgot?</Link>
                             </div>
                             <div className="relative">
                                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                                 <input
                                     type="password"
-                                    className="input-premium pl-14 h-16 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-brand-500 focus:outline-none transition-all"
+                                    className="input-premium pl-14 h-16 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all"
                                     placeholder="••••••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -86,7 +86,7 @@ const Login = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full h-16 text-base !rounded-2xl px-8 py-4 bg-brand-500 text-white font-bold rounded-2xl shadow-md shadow-brand-500/20 hover:bg-brand-600 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full h-16 text-base !rounded-2xl px-8 py-4 bg-brand-500 dark:bg-violet-600 text-white font-bold rounded-2xl shadow-md shadow-brand-500/20 dark:shadow-violet-900/20 hover:bg-brand-600 dark:hover:bg-violet-500 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <Loader2 className="animate-spin" size={24} />
@@ -101,7 +101,7 @@ const Login = () => {
                     <div className="mt-8 text-center pt-8 border-t border-slate-50 dark:border-dark-border">
                         <p className="text-sm font-bold text-slate-500 dark:text-violet-500">
                             No credentials?{" "}
-                            <Link to="/register" className="text-brand-500 hover:underline dark:text-violet-600 font-black ml-1 text-base">
+                            <Link to="/register" className="text-brand-500 dark:text-violet-500 hover:underline dark:hover:text-violet-400 font-black ml-1 text-base">
                                 Signup
                             </Link>
                         </p>
