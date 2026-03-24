@@ -56,7 +56,7 @@ public class PatientController {
     @PreAuthorize("hasRole('DOCTOR') or hasRole('ADMIN')")
     public List<AIServiceInfo> getAIServices() {
         return Arrays.stream(AIServiceType.values())
-                .filter(service -> service == AIServiceType.AI_SERVICE_1 || service == AIServiceType.AI_SERVICE_2)
+                .filter(service -> service == AIServiceType.AI_SERVICE_1 || service == AIServiceType.AI_SERVICE_2 || service == AIServiceType.AI_SERVICE_3)
                 .map(service -> new AIServiceInfo(service.name(), service.getDisplayName(), service.getServiceName()))
                 .collect(Collectors.toList());
     }

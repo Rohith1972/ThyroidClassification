@@ -93,6 +93,10 @@ public class AIServiceImpl implements AIService {
             request.put("FTI", lv.getFti() != null ? lv.getFti() : 0.0);
 
             // No extra features added for AI_SERVICE_2 since it's HistGradientBoosting now
+            
+            if (aiServiceType == AIServiceType.AI_SERVICE_3) {
+                request.put("ultrasoundImageBase64", lv.getUltrasoundImageBase64());
+            }
 
             Prediction prediction = webClient.post()
                     .uri(serviceUrl + "/predict")

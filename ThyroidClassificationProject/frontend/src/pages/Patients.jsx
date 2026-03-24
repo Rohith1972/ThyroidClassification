@@ -176,7 +176,7 @@ const Patients = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.03 }}
                                     className="group hover:bg-slate-50/50 dark:hover:bg-dark-card/30 transition-colors cursor-pointer"
-                                    onClick={() => navigate(`/patients/${patient.id}`)}
+                                    onClick={() => navigate(`/app/patients/${patient.id}`)}
                                 >
                                     <td className="px-6 py-3">
                                         <div className="flex items-center gap-3">

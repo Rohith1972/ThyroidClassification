@@ -20,10 +20,12 @@ services:
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/thyroid_db
       - AI_SERVICE_URL=http://ai-service-1:8000
       - AI_SERVICE_URL_2=http://ai-service-2:8000
+      - AI_SERVICE_URL_3=http://ai-service-3:8002
     depends_on:
       - mongodb
       - ai-service-1
       - ai-service-2
+      - ai-service-3
     networks:
       - thyroid-network
 
@@ -40,6 +42,14 @@ services:
     container_name: thyroid_ai_2
     ports:
       - "8001:8000"
+    networks:
+      - thyroid-network
+
+  ai-service-3:
+    build: ./ai-service-3
+    container_name: thyroid_ai_3
+    ports:
+      - "8002:8002"
     networks:
       - thyroid-network
 

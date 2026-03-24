@@ -136,6 +136,7 @@ const AddPatient = () => {
     const FALLBACK_AI_SERVICES = [
         { name: "AI_SERVICE_1", displayName: "RandomForest Model", serviceName: "ai-service-1" },
         { name: "AI_SERVICE_2", displayName: "HistGB Thyroid Service", serviceName: "ai-service-2" },
+        { name: "AI_SERVICE_3", displayName: "Deep Learning CNN", serviceName: "ai-service-3" },
     ];
 
     const [aiServices, setAiServices] = useState(FALLBACK_AI_SERVICES);
@@ -228,7 +229,7 @@ const AddPatient = () => {
         try {
             await patientService.createPatient(payload);
             toast.success("PREDICTION COMPLETE");
-            navigate("/patients");
+            navigate("/app/patients");
         } catch (error) {
             console.error(error);
             toast.error("PREDICTION FAILURE");

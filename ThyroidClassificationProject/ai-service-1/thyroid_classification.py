@@ -12,7 +12,7 @@ warnings.filterwarnings('ignore')
 def load_and_explore_data():
     """Load the cleaned thyroid dataset and explore its structure"""
     print("Loading thyroid dataset...")
-    df = pd.read_csv('DataSets/Kaggle thyroid dataset/cleaned_dataset_Thyroid1.csv')
+    df = pd.read_csv('cleaned_dataset_Thyroid1.csv')
     
     print(f"Dataset shape: {df.shape}")
     print(f"Columns: {list(df.columns)}")
@@ -72,10 +72,10 @@ def train_random_forest(X_train, y_train):
     
     # Create and train the model
     rf_model = RandomForestClassifier(
-        n_estimators=100,
-        max_depth=10,
-        min_samples_split=5,
-        min_samples_leaf=2,
+        n_estimators=200,
+        max_depth=None,
+        min_samples_split=2,
+        min_samples_leaf=1,
         random_state=42,
         class_weight='balanced'  # Handle class imbalance
     )
@@ -117,7 +117,7 @@ def evaluate_model(model, X_test, y_test):
     plt.xlabel('Predicted')
     plt.tight_layout()
     plt.savefig('confusion_matrix.png', dpi=300, bbox_inches='tight')
-    plt.show()
+    # plt.show()
     
     return accuracy, auc_score, y_pred, y_pred_proba
 
@@ -142,7 +142,7 @@ def feature_importance(model, feature_names):
     plt.xlabel('Importance')
     plt.tight_layout()
     plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
-    plt.show()
+    # plt.show()
     
     return feature_importance_df
 
