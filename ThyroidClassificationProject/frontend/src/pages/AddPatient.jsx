@@ -94,9 +94,8 @@ const FormSection = ({ title, subtitle, icon: Icon, children, color = "bg-slate-
                 <Icon size={24} />
             </div>
             <div>
-                <h3 className="text-xl font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight uppercase italic">{title}</h3>
-                <p className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-[0.3em] mt-1 flex items-center gap-2">
-                    <span className="w-4 h-px bg-slate-200 dark:bg-dark-border"></span>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">{title}</h3>
+                <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                     {subtitle}
                 </p>
             </div>
@@ -245,14 +244,14 @@ const AddPatient = () => {
             transition={{ duration: 0.5 }}
             className="max-w-5xl mx-auto pb-20"
         >
-            <header className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8 pb-4 border-b border-slate-200 dark:border-dark-border">
+            <header className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-200 dark:border-dark-border">
                 <div>
-                    <h2 className="text-3xl font-black dark:text-white text-slate-900 tracking-tighter mb-1 uppercase italic">Patient <span className="text-brand-500 dark:text-violet-500">Inbound</span></h2>
-                    <p className="text-slate-400 dark:text-violet-500 text-[10px] font-bold uppercase tracking-[0.2em]">Clinical Intake Node v4.2</p>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Add New Patient</h2>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm">Input clinical data for AI analysis</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Link to="/app/patients" className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl text-slate-500 dark:text-dark-text hover:bg-slate-50 dark:hover:bg-dark-border transition-all font-bold uppercase tracking-widest text-[10px]">
-                        <ChevronLeft size={20} />
+                    <Link to="/app/patients" className="btn-secondary">
+                        <ChevronLeft size={16} />
                         Back to Registry
                     </Link>
                     <button
@@ -260,7 +259,7 @@ const AddPatient = () => {
                         form="patient-form"
                         onClick={handleSubmit(onSubmit)}
                         disabled={loading}
-                        className="flex items-center gap-2 px-6 py-3 bg-brand-500 dark:bg-violet-600 hover:bg-brand-600 dark:hover:bg-violet-500 text-white rounded-xl transition-all font-bold uppercase tracking-widest text-[10px] disabled:opacity-50 disabled:cursor-not-allowed border border-brand-500 dark:border-violet-600"
+                        className="btn-primary"
                     >
                         {loading ? (
                             <Loader2 className="animate-spin" size={20} />
@@ -275,45 +274,36 @@ const AddPatient = () => {
             </header>
             <form id="patient-form" onSubmit={handleSubmit(onSubmit)} className="space-y-12">
                 {/* Section 1: Identity */}
-                <FormSection title="Biological Data" subtitle="Core Patient Info" icon={User} color="bg-brand-500 dark:bg-violet-600">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
-                            <div className="relative group">
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={18} />
-                                <input {...register('name')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all" placeholder="Subject Alpha" />
-                            </div>
-                            {errors.name && <p className="text-[10px] text-rose-500 dark:text-rose-400 font-bold mt-1 ml-1">{errors.name.message}</p>}
+                <FormSection title="Patient Demographics" subtitle="Basic Information" icon={User} color="bg-indigo-500 dark:bg-violet-600">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-slate-700 dark:text-gray-300">Full Name</label>
+                            <input {...register('name')} className="input-premium" placeholder="e.g. John Doe" />
+                            {errors.name && <p className="text-xs text-rose-500 dark:text-rose-400 font-medium mt-1">{errors.name.message}</p>}
                         </div>
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 uppercase tracking-widest ml-1">Subject Age</label>
-                            <div className="relative group">
-                                <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={18} />
-                                <input type="number" {...register('age')} className="input-premium pl-12 h-14 text-sm bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all" placeholder="25" />
-                            </div>
-                            {errors.age && <p className="text-[10px] text-rose-500 dark:text-rose-400 font-bold mt-1 ml-1">{errors.age.message}</p>}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-slate-700 dark:text-gray-300">Age</label>
+                            <input type="number" {...register('age')} className="input-premium" placeholder="e.g. 45" />
+                            {errors.age && <p className="text-xs text-rose-500 dark:text-rose-400 font-medium mt-1">{errors.age.message}</p>}
                         </div>
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black dark:text-dark-text-secondary text-slate-400 uppercase tracking-widest ml-1">Gender Node</label>
-                            <div className="relative group">
-                                <Dna className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={18} />
-                                <select {...register('gender')} className="input-premium pl-12 h-14 text-sm appearance-none cursor-pointer bg-white dark:bg-dark-card border-slate-200 dark:border-dark-border focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all">
-                                    <option value="Male">XY MALE</option>
-                                    <option value="Female">XX FEMALE</option>
-                                </select>
-                            </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-slate-700 dark:text-gray-300">Biological Sex</label>
+                            <select {...register('gender')} className="input-premium appearance-none cursor-pointer">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
                     </div>
                 </FormSection>
 
                 {/* AI Service Selection */}
-                <FormSection title="AI Service Selection" subtitle="Choose Neural Processing Engine" icon={Cpu} color="bg-purple-500 dark:bg-violet-600">
+                <FormSection title="Model Selection" subtitle="Choose AI Engine" icon={Cpu} color="bg-indigo-500 dark:bg-violet-600">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {aiServices.map((service) => (
-                            <label key={service.name} className={`relative cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 ${
+                            <label key={service.name} className={`relative cursor-pointer p-4 rounded-xl border transition-all duration-300 ${
                                 watch('aiServiceType') === service.name 
-                                    ? 'bg-purple-50 border-purple-300 shadow-lg shadow-purple-500/10 dark:bg-violet-900/40 dark:border-violet-500 dark:shadow-violet-900/50' 
-                                    : 'bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200 dark:bg-dark-card dark:border-dark-border dark:hover:bg-dark-surface dark:hover:border-violet-900'
+                                    ? 'bg-indigo-50 border-indigo-300 dark:bg-violet-900/40 dark:border-violet-500' 
+                                    : 'bg-white border-slate-200 hover:bg-slate-50 dark:bg-dark-card dark:border-dark-border'
                             }`}>
                                     <input
                                         type="radio"
@@ -322,34 +312,26 @@ const AddPatient = () => {
                                         className="sr-only"
                                     />
                                     <div className="flex items-start gap-4">
-                                        <div className={`p-3 rounded-xl transition-all ${
+                                        <div className={`p-2 rounded-lg transition-all ${
                                             watch('aiServiceType') === service.name 
-                                                ? 'bg-purple-500 text-white shadow-lg dark:bg-violet-600' 
-                                                : 'bg-slate-100 text-slate-400 dark:bg-dark-surface dark:text-dark-text-muted'
+                                                ? 'bg-indigo-500 text-white dark:bg-violet-600' 
+                                                : 'bg-slate-100 text-slate-500 dark:bg-dark-surface dark:text-gray-400'
                                         }`}>
                                             <Cpu size={20} />
                                         </div>
                                         <div className="flex-1">
-                                            <h4 className={`font-black text-sm uppercase tracking-tight mb-1 ${watch('aiServiceType') === service.name ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-dark-text'}`}>
+                                            <h4 className={`font-semibold text-sm mb-1 ${watch('aiServiceType') === service.name ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-gray-300'}`}>
                                                 {service.displayName}
                                             </h4>
-                                            <p className="text-[9px] font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">
+                                            <p className="text-xs text-slate-500 dark:text-gray-400">
                                                 {service.serviceName}
                                             </p>
-                                            <div className="mt-3 flex items-center gap-2">
-                                                <Zap size={12} className={`text-purple-500 ${watch('aiServiceType') === service.name ? 'dark:text-violet-400' : 'dark:text-dark-text-muted'}`} />
-                                                <span className={`text-[8px] font-bold uppercase tracking-widest ${
-                                                    watch('aiServiceType') === service.name ? 'text-purple-600 dark:text-violet-400' : 'text-slate-400 dark:text-dark-text-muted'
-                                                }`}>
-                                                    {watch('aiServiceType') === service.name ? 'SELECTED' : 'AVAILABLE'}
-                                                </span>
-                                            </div>
                                         </div>
                                     </div>
                                 </label>
                             ))}
                         </div>
-                        {errors.aiServiceType && <p className="text-[10px] text-rose-500 font-bold mt-4 ml-1">{errors.aiServiceType.message}</p>}
+                        {errors.aiServiceType && <p className="text-xs text-rose-500 font-medium mt-2">{errors.aiServiceType.message}</p>}
                     </FormSection>
 
                     {/* Conditional Sections based on AI Service Selection */}
@@ -359,31 +341,31 @@ const AddPatient = () => {
                                 {/* Removed Ultrasound Features component */}
                             
                             {/* Section 2: Laboratory Markers */}
-                    <FormSection title="Diagnostic Markers" subtitle="Neural Processing Inputs" icon={FlaskConical} color="bg-rose-500 dark:bg-violet-600">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <FormSection title="Laboratory Values" subtitle="Blood Test Results" icon={FlaskConical} color="bg-indigo-500 dark:bg-violet-600">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {[
                                 { id: 'tsh', measured: 'tshMeasured', label: 'TSH Indicator', unit: 'mIU/L', icon: Activity },
                                 { id: 'tt4', measured: 'tt4Measured', label: 'TT4 Level', unit: 'ug/dL', icon: Beaker },
                                 { id: 't4u', measured: 't4uMeasured', label: 'T4U Matrix', unit: 'Ratio', icon: FlaskConical },
                                 { id: 'fti', measured: 'ftiMeasured', label: 'FTI Score', unit: 'Numeric', icon: Stethoscope },
                             ].map((field) => (
-                                <div key={field.id} className={`p-8 rounded-3xl border transition-all duration-300 ${watch(field.measured) ? 'bg-slate-50 border-brand-200 dark:bg-violet-900/10 dark:border-violet-800' : 'bg-white border-slate-100 dark:bg-dark-card dark:border-dark-border hover:bg-slate-50/50 dark:hover:bg-dark-surface'}`}>
+                                <div key={field.id} className={`p-6 rounded-xl border transition-all duration-300 ${watch(field.measured) ? 'bg-indigo-50 border-indigo-200 dark:bg-violet-900/10 dark:border-violet-800' : 'bg-white border-slate-200 dark:bg-dark-card dark:border-dark-border hover:bg-slate-50'}`}>
                                     <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-4">
-                                            <div className={`p-3 rounded-xl ${watch(field.measured) ? 'bg-brand-500 dark:bg-violet-600 text-white' : 'bg-slate-100 dark:bg-dark-surface text-slate-400 dark:text-dark-text-muted'}`}>
+                                        <div className="flex items-center gap-3">
+                                            <div className={`p-2 rounded-lg ${watch(field.measured) ? 'bg-indigo-500 dark:bg-violet-600 text-white' : 'bg-slate-100 dark:bg-dark-surface text-slate-500 dark:text-gray-400'}`}>
                                                 <field.icon size={20} />
                                             </div>
                                             <div>
-                                                <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{field.label}</label>
-                                                <p className="text-[10px] font-bold text-slate-400 uppercase">{field.unit}</p>
+                                                <label className="text-sm font-semibold text-slate-900 dark:text-white">{field.label}</label>
+                                                <p className="text-xs font-medium text-slate-500">{field.unit}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <span className={`text-[9px] font-bold uppercase transition-colors ${watch(field.measured) ? 'text-brand-600 dark:text-violet-400' : 'text-slate-300 dark:text-dark-text-muted'}`}>Measured?</span>
+                                            <span className="text-xs font-medium text-slate-500">Measured</span>
                                             <label className="relative cursor-pointer">
                                                 <input type="checkbox" {...register(field.measured)} className="sr-only peer" />
-                                                <div className="w-14 h-8 bg-slate-100 dark:bg-dark-surface peer-checked:bg-brand-500 dark:peer-checked:bg-violet-500 rounded-full transition-all border border-slate-200 dark:border-dark-border"></div>
-                                                <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-white dark:bg-dark-card rounded-full transition-transform peer-checked:translate-x-6 shadow-md"></div>
+                                                <div className="w-11 h-6 bg-slate-200 dark:bg-gray-700 peer-checked:bg-indigo-500 dark:peer-checked:bg-violet-500 rounded-full transition-all"></div>
+                                                <div className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5 shadow-sm"></div>
                                             </label>
                                         </div>
                                     </div>
@@ -392,7 +374,7 @@ const AddPatient = () => {
                                         {watch(field.measured) && (
                                             <motion.div
                                                 initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                                                animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
+                                                animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
                                                 exit={{ opacity: 0, height: 0, marginTop: 0 }}
                                                 className="overflow-hidden"
                                             >
@@ -401,11 +383,11 @@ const AddPatient = () => {
                                                         type="number"
                                                         step="0.001"
                                                         {...register(field.id)}
-                                                        className="w-full bg-white dark:bg-dark-card px-6 py-4 border-2 border-brand-100 dark:border-violet-900/30 rounded-2xl focus:outline-none focus:border-brand-500 dark:focus:border-violet-500 transition-all text-2xl font-black text-slate-900 dark:text-white placeholder:text-slate-100 dark:placeholder:text-dark-text-muted"
+                                                        className="w-full bg-white dark:bg-dark-card px-4 py-3 border border-slate-300 dark:border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500 dark:focus:border-violet-500 transition-all text-lg font-semibold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-gray-500"
                                                         placeholder="0.00"
                                                         autoFocus
                                                     />
-                                                    {errors[field.id] && <p className="text-[10px] text-rose-500 font-bold mt-2 ml-1 uppercase">{errors[field.id].message}</p>}
+                                                    {errors[field.id] && <p className="text-xs text-rose-500 font-medium mt-1">{errors[field.id].message}</p>}
                                                 </div>
                                             </motion.div>
                                         )}
@@ -413,22 +395,21 @@ const AddPatient = () => {
                                 </div>
                             ))}
 
-                            {/* Special case for T3 Measured only as per model features */}
-                            <div className={`p-8 rounded-3xl border transition-all duration-300 ${watch('t3Measured') ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/10 dark:border-emerald-800' : 'bg-white border-slate-100 dark:bg-dark-card dark:border-dark-border'}`}>
+                            <div className={`p-6 rounded-xl border transition-all duration-300 ${watch('t3Measured') ? 'bg-indigo-50 border-indigo-200 dark:bg-violet-900/10 dark:border-violet-800' : 'bg-white border-slate-200 dark:bg-dark-card dark:border-dark-border hover:bg-slate-50'}`}>
                                 <div className="flex justify-between items-center">
-                                    <div className="flex items-center gap-4">
-                                        <div className={`p-3 rounded-xl ${watch('t3Measured') ? 'bg-emerald-500 text-white dark:bg-emerald-600' : 'bg-slate-100 text-slate-400 dark:bg-dark-surface dark:text-dark-text-muted'}`}>
+                                    <div className="flex items-center gap-3">
+                                        <div className={`p-2 rounded-lg ${watch('t3Measured') ? 'bg-indigo-500 text-white dark:bg-violet-600' : 'bg-slate-100 text-slate-500 dark:bg-dark-surface dark:text-gray-400'}`}>
                                             <Beaker size={20} />
                                         </div>
                                         <div>
-                                            <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">T3 Status</label>
-                                            <p className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase">Binary Flag Only</p>
+                                            <label className="text-sm font-semibold text-slate-900 dark:text-white">T3 Status</label>
+                                            <p className="text-xs font-medium text-slate-500">Measured Flag</p>
                                         </div>
                                     </div>
                                     <label className="relative cursor-pointer">
                                         <input type="checkbox" {...register('t3Measured')} className="sr-only peer" />
-                                        <div className="w-14 h-8 bg-slate-100 dark:bg-dark-surface peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-600 rounded-full transition-all border border-slate-200 dark:border-dark-border"></div>
-                                        <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-white dark:bg-dark-card rounded-full transition-transform peer-checked:translate-x-6 shadow-md"></div>
+                                        <div className="w-11 h-6 bg-slate-200 dark:bg-gray-700 peer-checked:bg-indigo-500 dark:peer-checked:bg-violet-500 rounded-full transition-all"></div>
+                                        <div className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5 shadow-sm"></div>
                                     </label>
                                 </div>
                             </div>
@@ -436,7 +417,7 @@ const AddPatient = () => {
                     </FormSection>
 
                     {/* Section 3: Clinical History */}
-                    <FormSection title="Medical Context" subtitle="Metabolic History Flags" icon={Activity} color="bg-emerald-500 dark:bg-violet-600">
+                    <FormSection title="Medical History" subtitle="Clinical Flags" icon={Activity} color="bg-indigo-500 dark:bg-violet-600">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {[
                                 { id: 'onThyroxine', label: 'On Thyroxine' },
@@ -454,14 +435,14 @@ const AddPatient = () => {
                                 { id: 'hypopituitary', label: 'Hypopituitary' },
                                 { id: 'psych', label: 'Psychotropic' },
                              ].map(flag => (
-                                <label key={flag.id} className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer transition-all border ${watch(flag.id) ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/10 dark:border-emerald-800 dark:text-emerald-400' : 'bg-white border-slate-100 text-slate-400 hover:bg-slate-50 dark:bg-dark-card dark:border-dark-border dark:text-dark-text-muted dark:hover:bg-dark-surface'}`}>
+                                <label key={flag.id} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${watch(flag.id) ? 'bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-violet-900/10 dark:border-violet-800 dark:text-violet-400' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 dark:bg-dark-card dark:border-dark-border dark:text-gray-400 dark:hover:bg-dark-surface'}`}>
                                     <div className="relative">
                                         <input type="checkbox" {...register(flag.id)} className="sr-only" />
-                                        <div className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors ${watch(flag.id) ? 'bg-emerald-500 border-emerald-500 text-white dark:bg-emerald-600 dark:border-emerald-600' : 'bg-white border-slate-200 text-transparent dark:bg-dark-surface dark:border-dark-border'}`}>
-                                            <Check size={14} />
+                                        <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${watch(flag.id) ? 'bg-indigo-500 border-indigo-500 text-white dark:bg-violet-600 dark:border-violet-600' : 'bg-white border-slate-300 text-transparent dark:bg-dark-surface dark:border-gray-600'}`}>
+                                            <Check size={12} />
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-black uppercase tracking-widest">{flag.label}</span>
+                                    <span className="text-sm font-medium">{flag.label}</span>
                                 </label>
                             ))}
                         </div>
@@ -472,46 +453,42 @@ const AddPatient = () => {
                     {/* Section 3 for Upload */}
                     {watch('aiServiceType') === 'AI_SERVICE_3' && (
                         <FormSection title="Ultrasound Upload" subtitle="Deep Learning Image Input" icon={Upload} color="bg-indigo-500 dark:bg-violet-600">
-                            <div className="flex flex-col items-center justify-center p-10 border-2 border-dashed border-indigo-200 rounded-3xl bg-indigo-50/50 hover:bg-indigo-50 transition-colors">
+                            <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 dark:border-gray-700 rounded-xl bg-slate-50 dark:bg-dark-surface hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors">
                                 {imagePreview ? (
                                     <div className="relative">
-                                        <img src={imagePreview} alt="Preview" className="w-64 h-64 object-cover rounded-2xl shadow-lg border-4 border-white" />
+                                        <img src={imagePreview} alt="Preview" className="w-64 h-64 object-cover rounded-xl shadow-sm border-2 border-white dark:border-gray-700" />
                                         <button 
                                             type="button" 
                                             onClick={() => { setImagePreview(null); setValue('ultrasoundImageBase64', null); }}
-                                            className="absolute -top-4 -right-4 bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg font-bold"
+                                            className="absolute -top-3 -right-3 bg-rose-500 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-md font-bold text-xs hover:bg-rose-600 transition-colors"
                                         >
-                                            X
+                                            <Check className="rotate-45" size={14} />
                                         </button>
                                     </div>
                                 ) : (
                                     <label className="flex flex-col items-center cursor-pointer">
-                                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-indigo-500 shadow-sm mb-4">
-                                            <Upload size={32} />
+                                        <div className="w-16 h-16 bg-white dark:bg-dark-card border border-slate-200 dark:border-gray-700 rounded-full flex items-center justify-center text-slate-500 dark:text-gray-400 shadow-sm mb-4">
+                                            <Upload size={24} />
                                         </div>
-                                        <span className="text-lg font-black text-slate-800 uppercase">Select Image</span>
-                                        <span className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-2">JPEG, PNG up to 5MB</span>
+                                        <span className="text-base font-semibold text-slate-900 dark:text-white">Click to Upload Ultrasound</span>
+                                        <span className="text-xs text-slate-500 dark:text-gray-400 mt-1">JPEG, PNG up to 5MB</span>
                                         <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                                     </label>
                                 )}
                             </div>
-                            {errors.ultrasoundImageBase64 && <p className="text-[10px] text-rose-500 font-bold mt-4 uppercase text-center">{errors.ultrasoundImageBase64.message}</p>}
+                            {errors.ultrasoundImageBase64 && <p className="text-sm text-rose-500 font-medium mt-3 text-center">{errors.ultrasoundImageBase64.message}</p>}
                         </FormSection>
                     )}
 
                     {/* Final Actions */}
-                    <div className="pt-10 border-t border-slate-100 dark:border-dark-border flex flex-col sm:flex-row justify-between items-center gap-8">
-                        <div className="flex items-center gap-4 text-slate-400 dark:text-dark-text-muted max-w-sm">
-                            <AlertCircle size={24} className="text-brand-500 dark:text-violet-500 shrink-0" />
-                            <p className="text-[9px] font-bold uppercase tracking-widest leading-relaxed">System Verification: Laboratory metrics will be validated against Neural Model v4.2 before finalization.</p>
-                        </div>
-                        <button type="submit" disabled={loading} className="btn-primary !h-20 !px-16 w-full sm:w-auto text-lg shadow-xl shadow-brand-500/20 dark:shadow-violet-900/40 active:scale-95 transition-all">
+                    <div className="pt-8 flex justify-end">
+                        <button type="submit" disabled={loading} className="btn-primary">
                             {loading ? (
-                                <Activity className="animate-spin text-white" size={24} />
+                                <Activity className="animate-spin text-white" size={20} />
                             ) : (
                                 <>
-                                    <Save size={24} />
-                                    <span className="font-black uppercase tracking-widest">Predict</span>
+                                    <Save size={20} />
+                                    <span>Analyze Patient Data</span>
                                 </>
                             )}
                         </button>

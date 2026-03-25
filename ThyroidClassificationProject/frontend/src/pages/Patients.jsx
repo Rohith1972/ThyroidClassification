@@ -11,6 +11,7 @@ import {
     FlaskConical,
     ChevronRight,
     ArrowUpRight,
+    Trash2
 } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -48,15 +49,53 @@ const Patients = () => {
         fetchPatients();
     }, []);
 
+    const handleDelete = async (id, e) => {
+        e.stopPropagation();
+        if (!window.confirm("Are you sure you want to permanently delete this patient record?")) return;
+        try {
+            await patientService.deletePatient(id);
+            setPatients(prev => prev.filter(p => p.id !== id));
+        } catch (err) {
+            console.error("Error deleting patient:", err);
+            alert("Failed to delete patient record.");
+        }
+    };
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const isPatientPositive = (patient) => {
+        const result = String(patient.prediction?.result || "Unknown").toLowerCase();
+        const service = String(patient.prediction?.serviceName || patient.prediction?.service || "1").toLowerCase();
+        
+        if (result.includes("error") || result === "unknown") return null;
+
+        if (service.includes("1")) {
+            return result.includes("positive");
+        } else if (service.includes("2")) {
+            return result !== "-" && !result.includes("negative") && !result.includes("normal");
+        } else if (service.includes("3")) {
+            return !result.includes("normal") && !result.includes("negative") && !result.includes("benign");
+        }
+        return false;
+    };
+
+    const isPatientError = (patient) => {
+        const result = String(patient.prediction?.result || "Unknown").toLowerCase();
+        return result.includes("error") || result === "unknown";
+    };
+
     const filteredPatients = patients.filter(patient => {
         const matchesSearch = patient.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             patient.id?.toString().includes(searchTerm);
             
         let matchesFilter = true;
+        
         if (filterStatus === "POSITIVE") {
-            matchesFilter = patient.prediction?.result?.toLowerCase().includes("positive");
+            matchesFilter = isPatientPositive(patient) === true;
         } else if (filterStatus === "NEGATIVE") {
-            matchesFilter = patient.prediction?.result && !patient.prediction?.result?.toLowerCase().includes("positive");
+            matchesFilter = isPatientPositive(patient) === false && !isPatientError(patient);
         }
         
         return matchesSearch && matchesFilter;
@@ -83,34 +122,28 @@ const Patients = () => {
             {/* Header section */}
             <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-2">
                 <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <span className="badge-premium border-slate-200 dark:border-dark-border text-slate-500 dark:text-violet-500 bg-white dark:bg-dark-card shadow-sm">Registry Core</span>
-                        <span className="text-[10px] font-black text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-2 flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></span>
-                            Verified Dataset
-                        </span>
-                    </div>
-                    <h2 className="text-4xl font-black dark:text-white text-slate-900 tracking-tighter mb-2 italic">Clinical <span className="text-brand-500 dark:text-violet-500">Registry</span></h2>
-                    <p className="text-slate-500 dark:text-violet-500 font-bold flex items-center gap-2 text-xs">
-                        <Users size={14} className="text-brand-500 dark:text-violet-400" />
-                        Managing <span className="text-brand-600 dark:text-violet-400 underline underline-offset-4 decoration-brand-200 dark:decoration-violet-800">{patients.length}</span> active patient protocol records
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                        Patient Registry
+                    </h1>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm">
+                        View and manage diagnosed cases
                     </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
-                    <div className="relative w-full sm:w-80 group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-dark-text-muted group-focus-within:text-brand-500 dark:group-focus-within:text-violet-400 transition-colors" size={16} />
+                    <div className="relative flex-1 group">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                         <input
                             type="text"
-                            placeholder="Filter ID or Name..."
+                            placeholder="Search patients..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl focus:border-brand-500 dark:focus:border-violet-500 focus:outline-none transition-all shadow-sm text-sm font-bold placeholder:text-slate-400 dark:placeholder:text-dark-text-muted"
+                            className="input-premium pl-9 py-2 max-w-sm"
                         />
                     </div>
                     <div className="flex gap-2 w-full sm:w-auto relative">
                         <button 
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
-                            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 font-bold rounded-xl border transition-all text-sm ${isFilterOpen || filterStatus !== 'ALL' ? 'bg-brand-50 dark:bg-violet-900/20 text-brand-600 dark:text-violet-400 border-brand-200 dark:border-violet-800' : 'bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-dark-text border-slate-200 dark:border-dark-border hover:bg-slate-200 dark:hover:bg-dark-border'}`}
+                            className="btn-secondary py-2 px-4 shadow-sm"
                         >
                             <Filter size={16} />
                             {filterStatus === 'ALL' ? 'Filter' : filterStatus === 'POSITIVE' ? 'Findings' : 'Normal'}
@@ -147,7 +180,7 @@ const Patients = () => {
                             )}
                         </AnimatePresence>
 
-                        <Link to="/app/add-patient" className="btn-primary !h-auto !py-2.5 !px-6 flex items-center gap-2">
+                        <Link to="/app/add-patient" className="btn-primary flex items-center gap-2 text-sm px-4">
                             <Plus size={16} />
                             Add Patient
                         </Link>
@@ -161,11 +194,11 @@ const Patients = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-slate-50/50 dark:bg-dark-card/50 border-b border-slate-100 dark:border-dark-border">
-                                <th className="px-6 py-3 text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">Global Identity</th>
-                                <th className="px-6 py-3 text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest text-center">Diagnostic Score</th>
-                                <th className="px-6 py-3 text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">Protocol Date</th>
-                                <th className="px-6 py-3 text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">AI Conclusion</th>
-                                <th className="px-6 py-3 text-right pr-6 text-[10px] font-black dark:text-dark-text-secondary text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">Operations</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-gray-400">Patient</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-gray-400 hidden xl:table-cell">Gender / Age</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-gray-400 hidden md:table-cell">Date</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-gray-400">Status</th>
+                                <th className="px-6 py-3 text-right pr-6 text-xs font-semibold text-slate-500 dark:text-gray-400">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50 dark:divide-dark-border">
@@ -178,61 +211,78 @@ const Patients = () => {
                                     className="group hover:bg-slate-50/50 dark:hover:bg-dark-card/30 transition-colors cursor-pointer"
                                     onClick={() => navigate(`/app/patients/${patient.id}`)}
                                 >
-                                    <td className="px-6 py-3">
+                                    <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-card text-brand-600 dark:text-violet-400 flex items-center justify-center font-black text-base border border-slate-200 dark:border-dark-border group-hover:scale-110 group-hover:bg-brand-500 dark:group-hover:bg-violet-600 group-hover:text-white dark:group-hover:text-white transition-all">
-                                                {patient.name?.charAt(0).toUpperCase()}
-                                            </div>
                                             <div>
-                                                <p className="text-sm font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight">{patient.name}</p>
-                                                <p className="text-[10px] font-bold text-brand-500 dark:text-violet-400 uppercase tracking-widest">ID: {patient.id?.toString().slice(-8)}</p>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">{patient.name}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-3">
-                                        <div className="flex flex-col items-center">
-                                            <div className="flex items-center gap-1.5 mb-1.5">
-                                                <Activity size={12} className="text-brand-500 dark:text-violet-400" />
-                                                <span className="text-xs font-black dark:text-white text-slate-900 dark:text-dark-text">{(patient.prediction?.certainty ?? (patient.prediction?.confidence != null ? (patient.prediction.confidence > 1 ? patient.prediction.confidence : (patient.prediction.confidence * 100).toFixed(1)) : "N/A"))}%</span>
-                                            </div>
-                                            <div className="w-24 h-1.5 bg-slate-100 dark:bg-dark-card rounded-full overflow-hidden border border-slate-200 dark:border-dark-border">
-                                                <div
-                                                    className="h-full bg-brand-500 dark:bg-violet-500 rounded-full"
-                                                    style={{ width: `${patient.prediction?.certainty ?? (patient.prediction?.confidence != null ? (patient.prediction.confidence > 1 ? patient.prediction.confidence : patient.prediction.confidence * 100) : 0)}%` }}
-                                                ></div>
-                                            </div>
+                                    <td className="px-6 py-4 hidden xl:table-cell">
+                                        <p className="text-sm text-slate-700 dark:text-gray-300">{patient.gender}</p>
+                                        <p className="text-xs text-slate-500 dark:text-gray-400">{patient.age} years</p>
+                                    </td>
+                                    <td className="px-6 py-4 hidden md:table-cell">
+                                        <span className="text-sm text-slate-700 dark:text-gray-300">
+                                            {patient.createdAt ? new Date(patient.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : 'N/A'}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {(() => {
+                                            const rawResult = patient.prediction?.result || "Unknown";
+                                            const safeResult = String(rawResult).toLowerCase();
+                                            const serviceUsed = String(patient.prediction?.serviceName || patient.prediction?.service || "1").toLowerCase();
+                                            let isPos = false;
+                                            let isErr = false;
+                                            let badgeText = rawResult;
+                                            
+                                            if (safeResult.includes("error") || safeResult === "unknown" || rawResult === "Prediction failed") {
+                                                isErr = true;
+                                                badgeText = "Inference Error";
+                                            } else if (serviceUsed.includes("1")) {
+                                                isPos = safeResult.includes("positive");
+                                                badgeText = isPos ? "Positive" : "Negative";
+                                            } else if (serviceUsed.includes("2")) {
+                                                isPos = rawResult !== "-" && !safeResult.includes("negative") && !safeResult.includes("normal");
+                                                badgeText = isPos ? `Positive - ${rawResult}` : "Negative";
+                                            } else if (serviceUsed.includes("3")) {
+                                                isPos = !safeResult.includes("normal") && !safeResult.includes("negative") && !safeResult.includes("benign");
+                                                badgeText = isPos ? rawResult : rawResult; 
+                                            }
+                                            
+                                            if (isErr) {
+                                                return (
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-50 border border-orange-200 text-orange-700 dark:bg-orange-900/20 dark:border-orange-800 dark:text-orange-400 uppercase tracking-widest text-center shadow-sm">
+                                                        {badgeText}
+                                                    </span>
+                                                );
+                                            }
+                                            
+                                            return isPos ? (
+                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-100 border border-red-300 text-red-700 dark:bg-red-900/30 dark:border-red-800 dark:text-red-400 uppercase tracking-widest text-center shadow-sm">
+                                                    {badgeText}
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400 uppercase tracking-widest text-center shadow-sm">
+                                                    {badgeText}
+                                                </span>
+                                            );
+                                        })()}
+                                        <div className="text-xs text-slate-500 dark:text-gray-400 mt-1">
+                                            {Math.round((patient.prediction?.certainty ?? patient.prediction?.confidence ?? 0) * (patient.prediction?.confidence <= 1 ? 100 : 1))}% conf.
                                         </div>
                                     </td>
-                                    <td className="px-6 py-3">
-                                        <div className="flex items-center gap-2.5">
-                                            <span className="p-1.5 bg-slate-100 dark:bg-dark-card rounded-lg text-slate-400 dark:text-dark-text-muted">
-                                                <FlaskConical size={12} />
-                                            </span>
-                                            <span className="text-xs font-black text-slate-500 dark:text-violet-500 uppercase tracking-tight">
-                                                {patient.createdAt ? new Date(patient.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : 'N/A'}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-3">
-                                        {patient.prediction?.result?.toLowerCase().includes("positive") ? (
-                                            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-800 rounded-full">
-                                                <Activity size={10} />
-                                                <span className="text-[10px] font-black uppercase tracking-widest">Findings Detected</span>
-                                            </div>
-                                        ) : (
-                                            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800 rounded-full">
-                                                <ShieldCheck size={10} />
-                                                <span className="text-[10px] font-black uppercase tracking-widest">Normal Result</span>
-                                            </div>
-                                        )}
-                                    </td>
-                                    <td className="px-6 py-3 text-right pr-6">
-                                        <div className="flex items-center justify-end gap-1">
-                                            <button className="p-2 text-slate-400 dark:text-dark-text-muted hover:text-brand-500 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-dark-card rounded-xl transition-all border border-transparent hover:border-slate-200 dark:hover:border-dark-border">
-                                                <ArrowUpRight size={16} />
-                                            </button>
-                                            <button className="p-2 text-slate-400 dark:text-dark-text-muted hover:text-slate-600 dark:hover:text-dark-text hover:bg-slate-100 dark:hover:bg-dark-card rounded-xl transition-all border border-transparent hover:border-slate-200 dark:hover:border-dark-border">
-                                                <MoreVertical size={16} />
+                                    <td className="px-6 py-4 text-right pr-6">
+                                        <div className="flex items-center justify-end gap-3">
+                                            <Link to={`/app/patients/${patient.id}`} className="text-brand-600 dark:text-violet-400 hover:text-brand-900 dark:hover:text-violet-300 text-sm font-medium">
+                                                View Details
+                                            </Link>
+                                            <button 
+                                                onClick={(e) => handleDelete(patient.id, e)}
+                                                className="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors border border-transparent hover:border-rose-200 dark:hover:border-rose-800"
+                                                title="Delete Patient"
+                                            >
+                                                <Trash2 size={16} />
                                             </button>
                                         </div>
                                     </td>

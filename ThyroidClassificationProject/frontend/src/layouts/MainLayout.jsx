@@ -1,6 +1,7 @@
 import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
+import patientService from "../services/patient.service";
 import {
     LayoutDashboard,
     Users,
@@ -26,6 +27,42 @@ const MainLayout = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [globalSearchTerm, setGlobalSearchTerm] = useState("");
+    const [todayPositives, setTodayPositives] = useState([]);
+
+    useEffect(() => {
+        const fetchTodayNotifications = async () => {
+            try {
+                const response = await patientService.getAll();
+                const data = response.data?.content || response.data || [];
+                
+                const today = new Date().toLocaleDateString('en-US');
+                
+                const isPatientPositive = (patient) => {
+                    const result = String(patient.prediction?.result || "Unknown").toLowerCase();
+                    const service = String(patient.prediction?.serviceName || patient.prediction?.service || "1").toLowerCase();
+                    if (result.includes("error") || result === "unknown") return false;
+                    if (service.includes("1")) return result.includes("positive");
+                    if (service.includes("2")) return result !== "-" && !result.includes("negative") && !result.includes("normal");
+                    if (service.includes("3")) return !result.includes("normal") && !result.includes("negative") && !result.includes("benign");
+                    return false;
+                };
+
+                const positives = data.filter(p => {
+                    if (!p.createdAt) return false;
+                    const patientDate = new Date(p.createdAt).toLocaleDateString('en-US');
+                    return patientDate === today && isPatientPositive(p);
+                });
+                
+                setTodayPositives(positives);
+            } catch (error) {
+                console.error("Failed to fetch notifications:", error);
+            }
+        };
+        fetchTodayNotifications();
+        
+        const interval = setInterval(fetchTodayNotifications, 300000); // refresh every 5 mins
+        return () => clearInterval(interval);
+    }, []);
 
     const handleGlobalSearch = (e) => {
         if (e.key === 'Enter') {
@@ -57,12 +94,11 @@ const MainLayout = () => {
                             <Stethoscope size={24} />
                         </div>
                         <div>
-                            <span className="font-black dark:text-white text-2xl tracking-tighter text-slate-900 dark:text-white block leading-tight">
+                            <span className="font-bold text-slate-900 dark:text-white text-xl tracking-tight block">
                                 Thyro<span className="text-brand-500 dark:text-violet-500">Lab</span>
                             </span>
-                            <span className="text-[9px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                                <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse"></span>
-                                Diagnostic AI
+                            <span className="text-xs font-medium text-slate-500 dark:text-gray-400">
+                                Diagnostic Registry
                             </span>
                         </div>
                     </div>
@@ -76,13 +112,10 @@ const MainLayout = () => {
                                 <Link
                                     key={item.path}
                                     to={item.path}
-                                    className={`sidebar-item group ${isActive ? "sidebar-item-active" : "sidebar-item-inactive"}`}
+                                    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive ? "bg-brand-50 text-brand-700 dark:bg-violet-900/40 dark:text-violet-300" : "text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-dark-surface"}`}
                                 >
-                                    <div className={`p-2 rounded-lg transition-colors ${isActive ? "text-brand-600 dark:text-violet-500" : "text-slate-400 dark:text-gray-500 group-hover:text-brand-500 dark:group-hover:text-violet-400"}`}>
-                                        <Icon size={18} />
-                                    </div>
-                                    <span className="tracking-tight text-sm font-bold">{item.label}</span>
-                                    {isActive && <ChevronRight size={14} className="ml-auto opacity-40" />}
+                                    <Icon size={18} className={isActive ? "text-brand-600 dark:text-violet-400" : "text-slate-400 dark:text-gray-500"} />
+                                    <span className="font-medium text-sm">{item.label}</span>
                                 </Link>
                             );
                         })}
@@ -122,25 +155,14 @@ const MainLayout = () => {
                                             {currentUser?.username?.charAt(0).toUpperCase()}
                                             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white dark:border-dark-surface rounded-full"></div>
                                         </div>
-                                        <h4 className="font-black dark:text-white text-slate-900 dark:text-dark-text text-lg tracking-tight">Dr. {currentUser?.username}</h4>
-                                        <p className="text-[9px] font-bold text-brand-500 dark:text-violet-400 uppercase tracking-widest mb-4">Lead Diagnostician</p>
-                                        
-                                        <div className="w-full bg-medical-card dark:bg-dark-card rounded-xl p-3 mb-4 border border-medical-border dark:border-dark-border">
-                                            <div className="flex justify-between items-center mb-2">
-                                                <span className="text-[9px] font-bold text-slate-400 dark:text-dark-text-muted uppercase">System Role</span>
-                                                <span className="text-[9px] font-black text-slate-700 dark:text-dark-text bg-slate-200 dark:bg-dark-surface px-2 py-0.5 rounded-full uppercase">Admin</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="text-[9px] font-bold text-slate-400 dark:text-dark-text-muted uppercase">Clearance</span>
-                                                <span className="text-[9px] font-black text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full uppercase">Level 4</span>
-                                            </div>
-                                        </div>
+                                        <h4 className="font-bold text-slate-900 dark:text-white text-base">Dr. {currentUser?.username}</h4>
+                                        <p className="text-xs text-slate-500 dark:text-gray-400 mb-4">Clinician</p>
                                         
                                         <button 
                                             onClick={handleLogout}
-                                            className="w-full flex items-center justify-center gap-2 py-2.5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-500 dark:hover:bg-rose-800 hover:text-white rounded-xl transition-all font-bold text-xs uppercase tracking-widest border border-rose-100 dark:border-rose-800 hover:border-rose-500 active:scale-95"
+                                            className="w-full flex items-center justify-center gap-2 py-2 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors font-medium text-sm"
                                         >
-                                            <LogOut size={14} />
+                                            <LogOut size={16} />
                                             Logout
                                         </button>
                                     </div>
@@ -184,13 +206,73 @@ const MainLayout = () => {
                     <div className="flex items-center gap-4 relative">
                         <ThemeToggle />
                         
-                        <button 
-                            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                            className={`p-3 rounded-xl transition-all border relative ${isNotificationsOpen ? 'bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-dark-text border-slate-300 dark:border-dark-border' : 'text-slate-400 dark:text-dark-text-muted hover:bg-slate-50 dark:hover:bg-dark-card hover:text-slate-600 dark:hover:text-dark-text border-slate-200 dark:border-dark-border'}`}
-                        >
-                            <Bell size={18} />
-                            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-                        </button>
+                        <div className="relative">
+                            <button 
+                                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                                className={`p-3 rounded-xl transition-all border relative ${isNotificationsOpen ? 'bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-dark-text border-slate-300 dark:border-dark-border' : 'text-slate-400 dark:text-dark-text-muted hover:bg-slate-50 dark:hover:bg-dark-card hover:text-slate-600 dark:hover:text-dark-text border-slate-200 dark:border-dark-border'}`}
+                            >
+                                <Bell size={18} />
+                                {todayPositives.length > 0 && (
+                                    <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white dark:border-dark-surface animate-pulse"></span>
+                                )}
+                            </button>
+                            
+                            <AnimatePresence>
+                                {isNotificationsOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute right-0 top-full mt-3 w-80 bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border rounded-2xl shadow-2xl overflow-hidden z-50 text-left"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <div className="px-5 py-4 border-b border-slate-100 dark:border-dark-border flex justify-between items-center bg-slate-50 dark:bg-dark-card">
+                                            <h4 className="font-bold text-slate-900 dark:text-white">Live Notifications</h4>
+                                            <span className="bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 text-xs font-bold px-2 py-0.5 rounded-full">
+                                                {todayPositives.length} New
+                                            </span>
+                                        </div>
+                                        <div className="max-h-80 overflow-y-auto">
+                                            {todayPositives.length > 0 ? (
+                                                todayPositives.reverse().map(patient => (
+                                                    <div 
+                                                        key={patient.id} 
+                                                        onClick={() => { setIsNotificationsOpen(false); navigate(`/app/patients/${patient.id}`); }}
+                                                        className="p-4 border-b border-slate-50 dark:border-dark-border hover:bg-slate-50 dark:hover:bg-dark-card cursor-pointer transition-colors"
+                                                    >
+                                                        <div className="flex items-start gap-3">
+                                                            <div className="p-2 bg-rose-50 dark:bg-rose-900/20 text-rose-500 dark:text-rose-400 rounded-lg shrink-0">
+                                                                <Activity size={16} />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight mb-1">{patient.name}</p>
+                                                                <p className="text-xs text-rose-600 dark:text-rose-400 font-medium line-clamp-2">Positive Finding Detected Today</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="px-5 py-8 text-center bg-white dark:bg-dark-surface">
+                                                    <div className="w-12 h-12 bg-slate-50 dark:bg-dark-card rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400 dark:text-dark-text-muted">
+                                                        <ShieldCheck size={20} />
+                                                    </div>
+                                                    <p className="text-sm font-semibold text-slate-600 dark:text-gray-300">All Clear Today</p>
+                                                    <p className="text-xs text-slate-400 dark:text-gray-500 mt-1">No abnormal cases recorded today.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {todayPositives.length > 0 && (
+                                            <div className="p-3 border-t border-slate-100 dark:border-dark-border bg-slate-50 dark:bg-dark-card text-center">
+                                                <button onClick={() => { setIsNotificationsOpen(false); navigate('/app/patients'); }} className="text-xs font-bold text-brand-600 dark:text-violet-400 hover:text-brand-700 dark:hover:text-violet-300">
+                                                    View Registry
+                                                </button>
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
                         <div className="h-8 w-px bg-slate-200 dark:bg-violet-900 mx-2"></div>
                         <div className="flex items-center gap-3">

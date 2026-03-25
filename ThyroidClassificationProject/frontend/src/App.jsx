@@ -8,6 +8,8 @@ import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Welcome from "./pages/Welcome";
 import ForgotPassword from "./pages/ForgotPassword";
+import PatientDetails from "./pages/PatientDetails";
+import ChatBot from "./components/ChatBot";
 
 function App() {
     return (
@@ -26,11 +28,13 @@ function App() {
                 }>
                     <Route index element={<Dashboard />} />
                     <Route path="patients" element={<Patients />} />
+                    <Route path="patients/:id" element={<PatientDetails />} />
                     <Route path="add-patient" element={<AddPatient />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            <ChatBot />
         </BrowserRouter>
     );
 }

@@ -75,7 +75,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('DOCTOR') or hasRole('ADMIN')")
     public void deletePatient(@PathVariable String id) {
         patientService.deletePatient(id);
     }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import patientService from "../services/patient.service";
 import {
     Users,
@@ -39,16 +40,16 @@ const StatCard = ({ title, value, icon: Icon, color, trend, delay = 0 }) => (
             )}
         </div>
         <div>
-            <p className="text-[10px] font-black dark:text-gray-400 text-slate-400 dark:text-gray-400 uppercase tracking-widest mb-1.5">{title}</p>
+            <p className="text-sm font-medium text-slate-500 dark:text-gray-400 mb-1">{title}</p>
             <div className="flex items-baseline gap-2">
-                <h3 className="text-3xl font-black dark:text-white text-slate-900 dark:text-white tracking-tight">{value}</h3>
-                <div className="badge-premium !py-0 !px-2 !text-[8px]">Analyzed</div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{value}</h3>
             </div>
         </div>
     </motion.div>
 );
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [stats, setStats] = useState({ total: 0, positive: 0, negative: 0, accuracy: "98.4%" });
     const [loading, setLoading] = useState(true);
 
@@ -57,12 +58,32 @@ const Dashboard = () => {
             try {
                 const response = await patientService.getAll();
                 const data = response.data?.content || response.data || [];
-                const pos = data.filter(p => p.prediction?.result?.toLowerCase().includes("positive")).length;
+                const isPatientPositive = (patient) => {
+                    const result = String(patient.prediction?.result || "Unknown").toLowerCase();
+                    const service = String(patient.prediction?.serviceName || patient.prediction?.service || "1").toLowerCase();
+                    
+                    if (result.includes("error") || result === "unknown") return null;
+
+                    if (service.includes("1")) {
+                        return result.includes("positive");
+                    } else if (service.includes("2")) {
+                        return result !== "-" && !result.includes("negative") && !result.includes("normal");
+                    } else if (service.includes("3")) {
+                        return !result.includes("normal") && !result.includes("negative") && !result.includes("benign");
+                    }
+                    return false;
+                };
+
+                const posCount = data.filter(p => isPatientPositive(p) === true).length;
+                const negCount = data.filter(p => isPatientPositive(p) === false).length;
+                const errCount = data.filter(p => isPatientPositive(p) === null).length;
+
                 setStats(prev => ({
                     ...prev,
                     total: data.length,
-                    positive: pos,
-                    negative: data.length - pos
+                    positive: posCount,
+                    negative: negCount,
+                    errors: errCount
                 }));
             } catch (error) {
                 console.error("Dashboard synchronization error:", error);
@@ -94,161 +115,108 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-6 pb-10">
             {/* Header section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
                 <div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <span className="badge-premium text-brand-600 dark:text-violet-400 border-brand-100 dark:border-violet-800 bg-brand-50 dark:bg-violet-900/20">Local Deployment</span>
-                        <span className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest flex items-center gap-1.5 ml-2">
-                            <span className="w-1.5 h-1.5 bg-brand-500 dark:bg-violet-400 rounded-full animate-pulse"></span>
-                            Live Analytics
-                        </span>
-                    </div>
-                    <h1 className="text-4xl font-black dark:text-white text-slate-900 tracking-tighter mb-2 italic">Diagnostic <span className="text-brand-500 dark:text-violet-500">Board</span></h1>
-                    <p className="text-slate-500 dark:text-violet-500 font-bold flex items-center gap-2 text-xs">
-                        <Clock size={14} className="text-brand-500 dark:text-violet-400" />
-                        Last synchronization: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Diagnostic Dashboard</h1>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm flex items-center gap-2">
+                        Overview of clinical outcomes • Updated {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="flex items-center gap-2.5 px-6 py-3.5 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl font-bold text-slate-600 dark:text-dark-text hover:bg-slate-50 dark:hover:bg-dark-border transition-all text-sm group shadow-sm">
-                        <Microscope size={18} className="text-brand-500 dark:text-violet-400" />
+                    <button onClick={() => navigate('/app/add-patient')} className="btn-secondary">
+                        <Microscope size={16} />
                         Diagnostic View
                     </button>
-                    <button className="btn-primary !h-auto !py-3.5 !px-8">
-                        <Activity size={18} />
+                    <button onClick={() => navigate('/app/patients')} className="btn-primary">
+                        <Activity size={16} />
                         Live Feed
                     </button>
                 </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard title="Total Lab Registry" value={stats.total} icon={Users} color="bg-brand-500 dark:bg-violet-600" trend="+12%" delay={0.1} />
-                <StatCard title="Positive Findings" value={stats.positive} icon={Activity} color="bg-rose-500" trend="+3%" delay={0.2} />
-                <StatCard title="Stable Findings" value={stats.negative} icon={ShieldCheck} color="bg-emerald-500" trend="+8%" delay={0.3} />
-                <StatCard title="Model Accuracy" value={stats.accuracy} icon={Zap} color="bg-amber-500 dark:bg-amber-600" trend="+2%" delay={0.4} />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Main Trend Analysis */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
                 <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="lg:col-span-2 card-premium"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
+                    className="bg-white dark:bg-dark-card border border-rose-200 dark:border-rose-900/50 rounded-3xl p-10 shadow-xl shadow-rose-100/50 dark:shadow-none relative overflow-hidden group"
                 >
-                    <div className="flex justify-between items-start mb-10">
-                        <div>
-                            <h3 className="text-lg font-black dark:text-white text-slate-900 dark:text-dark-text tracking-tight uppercase">Outcome Timeline</h3>
-                            <p className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest mt-1">Registry Throughput (6M History)</p>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-[80px] -mr-20 -mt-20 group-hover:bg-rose-500/20 transition-all duration-700"></div>
+                    
+                    <div className="flex justify-between items-start mb-10 relative z-10">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center text-white shadow-lg shadow-rose-500/30 group-hover:scale-110 transition-transform duration-500">
+                            <Activity size={32} />
+                        </div>
+                        <div className="bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 px-4 py-1.5 rounded-full font-bold text-sm border border-rose-100 dark:border-rose-800">
+                            High Priority
                         </div>
                     </div>
-                    <div className="h-[300px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                <defs>
-                                    <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.1} />
-                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#475569" />
-                                <XAxis
-                                    dataKey="name"
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 700 }}
-                                    dy={10}
-                                />
-                                <YAxis
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 700 }}
-                                />
-                                <Tooltip
-                                    cursor={{ stroke: '#e4e4e7', strokeWidth: 1 }}
-                                    contentStyle={{
-                                        backgroundColor: '#1a1a2e',
-                                        border: '1px solid #475569',
-                                        borderRadius: '12px',
-                                        boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-                                        padding: '12px'
-                                    }}
-                                    labelStyle={{ fontWeight: 'bold', color: '#e4e4e7', marginBottom: '4px' }}
-                                    itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="count"
-                                    stroke="#8b5cf6"
-                                    strokeWidth={3}
-                                    fillOpacity={1}
-                                    fill="url(#colorCount)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+                    
+                    <div className="relative z-10">
+                        <p className="text-xl font-bold text-slate-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Positive Cases</p>
+                        <div className="flex items-baseline gap-4">
+                            <h3 className="text-7xl font-black text-rose-600 dark:text-rose-500 tracking-tighter">{stats.positive}</h3>
+                            <span className="text-2xl font-bold text-slate-400 dark:text-gray-600 font-mono">
+                                {stats.total > 0 ? Math.round((stats.positive / stats.total) * 100) : 0}%
+                            </span>
+                        </div>
+                        <p className="text-slate-500 dark:text-gray-400 mt-6 font-medium bg-rose-50 dark:bg-rose-900/10 p-4 rounded-xl border border-rose-100 dark:border-rose-900/30">
+                            Includes Hyperthyroid classifications from Random Forest, HistGB, and Malignant traces from Ultrasound vision scans.
+                        </p>
                     </div>
                 </motion.div>
 
-                {/* Outcome Mix */}
                 <motion.div
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="card-premium flex flex-col"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="bg-white dark:bg-dark-card border border-emerald-200 dark:border-emerald-900/50 rounded-3xl p-10 shadow-xl shadow-emerald-100/50 dark:shadow-none relative overflow-hidden group"
                 >
-                    <h3 className="text-lg font-black dark:text-white text-slate-900 tracking-tight uppercase mb-2">Findings Mix</h3>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-8">Relative Frequency</p>
-
-                    <div className="flex-1 space-y-6">
-                        {distributionData.map((item, idx) => (
-                            <div key={idx} className="relative">
-                                <div className="flex justify-between items-end mb-3">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white" style={{ backgroundColor: item.color }}>
-                                            {item.name === 'Positive' ? <Activity size={18} /> : <ShieldCheck size={18} />}
-                                        </div>
-                                        <div>
-                                            <span className="text-[11px] font-black dark:text-white text-slate-900 dark:text-dark-text uppercase block">{item.name}</span>
-                                            <span className="text-[10px] font-bold text-slate-400 dark:text-dark-text-muted uppercase">{item.value} Records</span>
-                                        </div>
-                                    </div>
-                                    <span className="text-xl font-black dark:text-white text-slate-900 dark:text-dark-text">
-                                        {Math.round((item.value / stats.total) * 100) || 0}%
-                                    </span>
-                                </div>
-                                <div className="h-2 w-full bg-slate-50 dark:bg-dark-card rounded-full overflow-hidden border border-slate-100 dark:border-dark-border">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${(item.value / stats.total) * 100}%` }}
-                                        transition={{ duration: 1, delay: 0.8 + idx * 0.1 }}
-                                        className="h-full rounded-full"
-                                        style={{ backgroundColor: item.color }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] -mr-20 -mt-20 group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+                    
+                    <div className="flex justify-between items-start mb-10 relative z-10">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-500">
+                            <ShieldCheck size={32} />
+                        </div>
+                        <div className="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-4 py-1.5 rounded-full font-bold text-sm border border-emerald-100 dark:border-emerald-800">
+                            Stable
+                        </div>
                     </div>
-
-                    <div className="mt-8 p-6 bg-slate-50 dark:bg-dark-card border border-slate-100 dark:border-dark-border rounded-3xl group">
-                        <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-sm font-black dark:text-white text-slate-900 dark:text-dark-text uppercase">System Status</h4>
-                            <div className="flex items-center gap-1.5 font-bold text-emerald-500 dark:text-emerald-400 text-[10px]">
-                                <span className="w-1.5 h-1.5 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></span>
-                                Optimal
-                            </div>
+                    
+                    <div className="relative z-10">
+                        <p className="text-xl font-bold text-slate-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Negative Cases</p>
+                        <div className="flex items-baseline gap-4">
+                            <h3 className="text-7xl font-black text-emerald-600 dark:text-emerald-500 tracking-tighter">{stats.negative}</h3>
+                            <span className="text-2xl font-bold text-slate-400 dark:text-gray-600 font-mono">
+                                {stats.total > 0 ? Math.round((stats.negative / stats.total) * 100) : 0}%
+                            </span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            {[1, 2, 3, 4, 5, 6, 7].map(i => (
-                                <div key={i} className="flex-1 h-8 bg-slate-200 dark:bg-dark-border rounded-full relative overflow-hidden">
-                                    <div className="absolute bottom-0 left-0 w-full bg-brand-500 dark:bg-violet-400 rounded-full animate-grow" style={{ height: `${20 + i * 10}%`, animationDelay: `${i * 0.1}s` }}></div>
-                                </div>
-                            ))}
-                        </div>
+                        <p className="text-slate-500 dark:text-gray-400 mt-6 font-medium bg-emerald-50 dark:bg-emerald-900/10 p-4 rounded-xl border border-emerald-100 dark:border-emerald-900/30">
+                            Patient records cleared by the AI consensus indicating normal biological functions and benign scans.
+                        </p>
                     </div>
                 </motion.div>
+                
+                {stats.errors > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="md:col-span-2 bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-900/50 rounded-2xl p-6 flex items-center justify-between"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+                                <Zap size={24} />
+                            </div>
+                            <div>
+                                <h4 className="text-lg font-bold text-orange-900 dark:text-orange-400">Inference Errors Detected</h4>
+                                <p className="text-orange-700 dark:text-orange-500/70 text-sm font-medium">There are {stats.errors} patient records missing successful inferences. Check Registry.</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
             </div>
         </div>
     );
