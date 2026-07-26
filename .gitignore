@@ -1,0 +1,27 @@
+# Virtual environments
+venv/
+venv_*/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Node
+node_modules/
+
+# Java
+target/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.*

@@ -1,0 +1,113 @@
+# Simplified Render Configuration
+# Deploy services individually using the Render dashboard
+
+# MongoDB - Use Render's Managed MongoDB or External Provider
+# Database: thyroid_db
+
+services:
+  # AI Service 1 - Random Forest Model
+  - type: web
+    name: thyroid-ai-service-1
+    env: docker
+    repo: https://github.com/yourusername/ThyroidClassificationProject
+    rootDir: ai-service
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+  # AI Service 2 - CNN Image Model  
+  - type: web
+    name: thyroid-ai-service-2
+    env: docker
+    repo: https://github.com/yourusername/ThyroidClassificationProject
+    rootDir: ai-service-2
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 8001
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+  # AI Service 3 - TensorFlow Model
+  - type: web
+    name: thyroid-ai-service-3
+    env: docker
+    repo: https://github.com/yourusername/ThyroidClassificationProject
+    rootDir: ai-service-3
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 8002
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+  # API Gateway
+  - type: web
+    name: thyroid-api-gateway
+    env: docker
+    repo: https://github.com/yourusername/ThyroidClassificationProject
+    rootDir: api-gateway
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: AI_SERVICE_1_URL
+        sync: false
+        value: https://thyroid-ai-service-1.onrender.com
+      - key: AI_SERVICE_2_URL
+        sync: false
+        value: https://thyroid-ai-service-2.onrender.com
+      - key: AI_SERVICE_3_URL
+        sync: false
+        value: https://thyroid-ai-service-3.onrender.com
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+  # Backend Service
+  - type: web
+    name: thyroid-backend
+    env: docker
+    repo: https://github.com/yourusername/ThyroidClassificationProject
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: SPRING_DATA_MONGODB_URI
+        sync: false
+        value: mongodb://your-mongodb-connection-string/thyroid_db
+      - key: AI_SERVICE_URL
+        sync: false
+        value: https://thyroid-api-gateway.onrender.com
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m"
+
+  # Frontend Service
+  - type: web
+    name: thyroid-frontend
+    env: docker
+    repo: https://github.com/yourusername/ThyroidClassificationProject
+    rootDir: frontend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: starter
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+        value: https://thyroid-backend.onrender.com
+      - key: VITE_WS_URL
+        sync: false
+        value: wss://thyroid-backend.onrender.com/ws

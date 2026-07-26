@@ -1,0 +1,121 @@
+ID,Cancer,Composition,Echogenicity,Shape,Calcs1,MargA
+0000,0,complex,isoechoic,n,coarse,smooth
+0001,0,mixed,isoechoic,y,coarse,extrathyroidal
+0002,0,mixed,very hypoechoic,n,rim,ill-defined
+0003,0,solid,very hypoechoic,y,rim,ill-defined
+0004,0,solid,anechoic,y,macro,lobulated
+0005,0,solid,hypoechoic,n,macro,extrathyroidal
+0006,0,cystic,isoechoic,y,macro,lobulated
+0007,0,spongiform,hypoechoic,y,rim,ill-defined
+0008,1,cystic,hyperechoic,y,punctate,extrathyroidal
+0009,0,solid,hypoechoic,y,macro,ill-defined
+0010,0,spongiform,hypoechoic,n,punctate,extrathyroidal
+0011,0,spongiform,hyperechoic,n,punctate,ill-defined
+0012,1,solid,anechoic,n,coarse,extrathyroidal
+0013,1,complex,hyperechoic,y,rim,extrathyroidal
+0014,0,cystic,very hypoechoic,y,coarse,smooth
+0015,0,cystic,anechoic,n,macro,lobulated
+0016,1,mixed,isoechoic,y,macro,smooth
+0017,1,spongiform,anechoic,n,None,extrathyroidal
+0018,0,cystic,very hypoechoic,y,rim,extrathyroidal
+0019,0,mixed,anechoic,y,coarse,lobulated
+0020,1,cystic,very hypoechoic,n,macro,smooth
+0021,1,spongiform,hyperechoic,n,coarse,lobulated
+0022,0,cystic,hypoechoic,y,rim,ill-defined
+0023,0,complex,isoechoic,y,rim,smooth
+0024,0,mixed,isoechoic,n,rim,ill-defined
+0025,0,cystic,very hypoechoic,n,rim,extrathyroidal
+0026,0,solid,isoechoic,n,punctate,lobulated
+0027,1,cystic,anechoic,y,macro,ill-defined
+0028,0,complex,anechoic,y,macro,smooth
+0029,0,cystic,isoechoic,n,rim,extrathyroidal
+0030,1,cystic,hypoechoic,y,None,ill-defined
+0031,1,spongiform,isoechoic,y,coarse,smooth
+0032,1,mixed,anechoic,n,punctate,extrathyroidal
+0033,0,complex,anechoic,y,macro,ill-defined
+0034,0,solid,hyperechoic,n,rim,lobulated
+0035,1,mixed,anechoic,y,coarse,extrathyroidal
+0036,1,mixed,anechoic,y,rim,lobulated
+0037,0,complex,isoechoic,n,rim,lobulated
+0038,0,spongiform,isoechoic,y,macro,extrathyroidal
+0039,0,solid,anechoic,y,punctate,extrathyroidal
+0040,0,solid,anechoic,y,punctate,lobulated
+0041,0,spongiform,isoechoic,y,rim,extrathyroidal
+0042,1,cystic,hypoechoic,n,None,ill-defined
+0043,1,solid,very hypoechoic,y,macro,lobulated
+0044,0,mixed,isoechoic,n,macro,extrathyroidal
+0045,1,cystic,hypoechoic,y,None,extrathyroidal
+0046,1,solid,isoechoic,n,None,lobulated
+0047,1,spongiform,hyperechoic,n,macro,extrathyroidal
+0048,1,solid,anechoic,n,None,ill-defined
+0049,0,solid,isoechoic,y,None,extrathyroidal
+0050,0,mixed,very hypoechoic,y,macro,lobulated
+0051,1,cystic,hypoechoic,y,None,smooth
+0052,0,mixed,hypoechoic,y,None,extrathyroidal
+0053,0,solid,very hypoechoic,n,coarse,ill-defined
+0054,0,cystic,very hypoechoic,n,coarse,smooth
+0055,0,mixed,hypoechoic,y,rim,lobulated
+0056,0,cystic,isoechoic,n,punctate,smooth
+0057,0,spongiform,isoechoic,n,punctate,extrathyroidal
+0058,0,spongiform,isoechoic,n,punctate,ill-defined
+0059,1,cystic,anechoic,y,coarse,ill-defined
+0060,1,mixed,hyperechoic,y,coarse,extrathyroidal
+0061,0,cystic,hypoechoic,y,rim,smooth
+0062,0,solid,isoechoic,y,rim,ill-defined
+0063,0,mixed,anechoic,n,coarse,ill-defined
+0064,0,cystic,hypoechoic,n,macro,extrathyroidal
+0065,0,complex,hypoechoic,n,rim,smooth
+0066,0,complex,hypoechoic,n,macro,lobulated
+0067,0,complex,hyperechoic,n,punctate,ill-defined
+0068,0,mixed,hypoechoic,n,punctate,smooth
+0069,0,cystic,hypoechoic,y,None,ill-defined
+0070,1,spongiform,anechoic,n,coarse,smooth
+0071,0,complex,very hypoechoic,n,coarse,lobulated
+0072,0,spongiform,isoechoic,y,None,smooth
+0073,0,complex,anechoic,n,rim,smooth
+0074,0,spongiform,hyperechoic,n,coarse,lobulated
+0075,0,complex,hyperechoic,n,coarse,extrathyroidal
+0076,0,spongiform,hyperechoic,y,punctate,extrathyroidal
+0077,1,complex,very hypoechoic,n,punctate,smooth
+0078,1,mixed,hypoechoic,n,rim,ill-defined
+0079,0,cystic,anechoic,y,macro,lobulated
+0080,1,mixed,anechoic,y,punctate,lobulated
+0081,0,complex,hypoechoic,y,punctate,smooth
+0082,0,mixed,anechoic,n,coarse,ill-defined
+0083,0,spongiform,isoechoic,y,rim,ill-defined
+0084,0,complex,isoechoic,y,rim,smooth
+0085,1,cystic,hypoechoic,n,coarse,smooth
+0086,0,mixed,anechoic,y,rim,ill-defined
+0087,0,complex,hypoechoic,y,coarse,lobulated
+0088,1,cystic,anechoic,y,rim,extrathyroidal
+0089,0,complex,isoechoic,y,None,extrathyroidal
+0090,0,cystic,isoechoic,n,None,lobulated
+0091,1,solid,isoechoic,n,coarse,smooth
+0092,0,cystic,hypoechoic,y,coarse,extrathyroidal
+0093,1,cystic,very hypoechoic,y,punctate,ill-defined
+0094,0,spongiform,very hypoechoic,y,coarse,lobulated
+0095,1,solid,anechoic,n,punctate,extrathyroidal
+0096,1,complex,hyperechoic,y,punctate,lobulated
+0097,1,complex,very hypoechoic,y,macro,extrathyroidal
+0098,0,cystic,hypoechoic,y,None,smooth
+0099,1,solid,isoechoic,y,rim,ill-defined
+0100,1,spongiform,hyperechoic,y,macro,smooth
+0101,0,solid,hyperechoic,n,rim,extrathyroidal
+0102,0,cystic,anechoic,y,coarse,extrathyroidal
+0103,1,solid,anechoic,y,None,ill-defined
+0104,0,spongiform,hypoechoic,y,coarse,smooth
+0105,0,complex,isoechoic,n,coarse,extrathyroidal
+0106,0,solid,anechoic,n,None,smooth
+0107,0,cystic,very hypoechoic,n,macro,extrathyroidal
+0108,1,mixed,hypoechoic,n,rim,extrathyroidal
+0109,0,spongiform,hypoechoic,n,punctate,extrathyroidal
+0110,0,spongiform,hypoechoic,n,coarse,smooth
+0111,0,mixed,anechoic,y,None,smooth
+0112,1,solid,very hypoechoic,y,macro,smooth
+0113,1,mixed,very hypoechoic,y,None,ill-defined
+0114,0,spongiform,isoechoic,y,coarse,lobulated
+0115,0,cystic,hyperechoic,n,None,lobulated
+0116,0,cystic,isoechoic,y,None,smooth
+0117,0,cystic,isoechoic,y,None,smooth
+0118,0,solid,anechoic,y,coarse,ill-defined
+0119,1,complex,very hypoechoic,y,punctate,ill-defined

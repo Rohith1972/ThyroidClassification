@@ -1,0 +1,75 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: thyroid_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - thyroid-network
+
+  backend:
+    build: ./backend
+    container_name: thyroid_backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/thyroid_db
+      - AI_SERVICE_URL=http://api-gateway:8000
+    depends_on:
+      - mongodb
+      - api-gateway
+    networks:
+      - thyroid-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: thyroid_api_gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - AI_SERVICE_1_URL=http://ai-service:8000
+      - AI_SERVICE_2_URL=http://ai-service-2:8001
+      - AI_SERVICE_3_URL=http://ai-service-3:8002
+    networks:
+      - thyroid-network
+    depends_on:
+      - ai-service
+      - ai-service-2
+      - ai-service-3
+
+  ai-service:
+    build: ./ai-service
+    container_name: thyroid_ai
+    networks:
+      - thyroid-network
+
+  ai-service-2:
+    build: ./ai-service-2
+    container_name: thyroid_ai_2
+    networks:
+      - thyroid-network
+
+  ai-service-3:
+    build: ./ai-service-3
+    container_name: thyroid_ai_3
+    networks:
+      - thyroid-network
+
+  frontend:
+    build: ./frontend
+    container_name: thyroid_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - thyroid-network
+
+networks:
+  thyroid-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
